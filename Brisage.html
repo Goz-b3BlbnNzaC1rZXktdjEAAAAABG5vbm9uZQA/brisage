@@ -1,0 +1,2012 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Brisage</title>
+
+        <style>
+            .grid-container {
+                display: grid;
+                padding: 1px;
+            }
+            .grid-item {
+                border: 1px solid rgba(0, 0, 0, 0.8);
+                background-color: #757674;
+                padding: 4px;
+                font-size: 20px;
+                text-align: center;
+                color: #eaebe7;
+            }
+            .grid-item-wide {
+                border: 1px solid rgba(0, 0, 0, 0.8);
+                background-color: #3e3f3b;
+                padding: 4px;
+                font-size: 20px;
+                text-align: center;
+                color: #eaebe7;
+                grid-column: span 6;
+            }
+            .grid-item-wide-invis {
+                border: 1px solid rgba(0, 0, 0, 0);
+                background-color: rgba(0, 0, 0, 0);
+                padding: 4px;
+                font-size: 20px;
+                text-align: center;
+                color: #eaebe7;
+                grid-column: span 6;
+            }
+            .grid-item-wide-sugg {
+                border: 1px solid rgba(0, 0, 0, 0.8);
+                background-color: #4e4f4b;
+                padding: 4px;
+                font-size: 20px;
+                text-align: center;
+                color: #eaebe7;
+                grid-column: span 6;
+            }
+            .grid-item-thin {
+                border: 1px solid rgba(0, 0, 0, 0.8);
+                background-color: #3e3f3b;
+                padding: 4px;
+                font-size: 20px;
+                text-align: center;
+                color: #eaebe7;
+                grid-column: span 4;
+            }
+            .grid-item-fullwidth {
+                border: 1px solid rgba(0, 0, 0, 0.8);
+                background-color: #757674;
+                padding: 4px;
+                font-size: 20px;
+                text-align: center;
+                color: #eaebe7;
+                grid-column: 1/-1;
+            }
+            input[type='text']:hover {
+                outline: none;
+            }
+            input[type='text']:focus {
+                outline: none;
+            }
+            input[type='text'] {
+                border: 1px solid black;
+                border-radius: 5px;
+                background-color: #757674;
+            }
+            .myInput {
+                border: 1px solid black;
+                border-radius: 5px;
+                background-color: #757674;
+                font-size: 20px;
+                color: #eaebe7;
+            }
+            .myInput:hover {
+                outline: none;
+            }
+            .myInput:focus {
+                outline: none;
+            }
+            .input {
+                vertical-align: center;
+            }
+            .statName {
+                display: inline-block;
+                text-align: justify;
+                width: 144px;
+            }
+            .recapTextL {
+                display: inline-block;
+                text-align: justify;
+                width: 164px;
+            }
+            .recapTextR {
+                display: inline-block;
+                text-align: justify;
+                width: 100px;
+            }
+            .itemSugg {
+                display: inline-block;
+                text-align: justify;
+                width: 100%-30px;
+            }
+            .select {
+                border: 1px solid black;
+                border-radius: 5px;
+                background-color: #757674;
+                font-size: 20px;
+                color: #eaebe7;
+            }
+            .myOption {
+                background-color: #757674;
+                font-size: 12px;
+                color: #eaebe7;
+            }
+        </style>
+    </head>
+    <script>
+        // Color Scheme
+        /*
+                #757674
+                #1e1f1b
+                */
+        const allStats = [
+            'PA',
+            'PM',
+            'PO',
+            'Invocation',
+            'Vitalité',
+            'Sagesse',
+            'Puissance',
+            'Force',
+            'Chance',
+            'Intelligence',
+            'Agilité',
+
+            'Tacle',
+            'Fuite',
+            'Esquive PA',
+            'Esquive PM',
+            'Retrait PA',
+            'Retrait PM',
+            'Initiative',
+            'Prospection',
+            'Soin',
+            'Pods',
+
+            'Critique',
+            'Do Critiques',
+            'DoPou',
+            'Dommages',
+            'Do Neutre',
+            'Do Terre',
+            'Do Eau',
+            'Do Feu',
+            'Do Air',
+
+            'Ré% Neutre',
+            'RéFix Neutre',
+            'Ré% Terre',
+            'RéFix Terre',
+            'Ré% Eau',
+            'RéFix Eau',
+            'Ré% Feu',
+            'RéFix Feu',
+            'Ré% Air',
+            'RéFix Air',
+            'RéCrit',
+            'RéPou',
+
+            'Do Mélée',
+            'Ré% Mélée',
+            'Do Distance',
+            'Ré% Distance',
+            'Do Armes',
+            'Ré% Armes',
+            'Do Sorts',
+        ]
+        let stats = {}
+        const price = {}
+        const weight = {
+            PA: 100,
+            PM: 90,
+            PO: 51,
+            Invocation: 30,
+            Vitalité: 0.2,
+            Sagesse: 3,
+            Puissance: 2,
+            Force: 1,
+            Chance: 1,
+            Intelligence: 1,
+            Agilité: 1,
+
+            Tacle: 4,
+            Fuite: 4,
+            'Esquive PA': 7,
+            'Esquive PM': 7,
+            'Retrait PA': 7,
+            'Retrait PM': 7,
+            Initiative: 0.1,
+            Prospection: 3,
+            Soin: 10,
+            Pods: 0.25,
+
+            Critique: 10,
+            'Do Critiques': 5,
+            DoPou: 5,
+            Dommages: 10,
+            'Do Neutre': 5,
+            'Do Terre': 5,
+            'Do Eau': 5,
+            'Do Feu': 5,
+            'Do Air': 5,
+
+            'Ré% Neutre': 6,
+            'RéFix Neutre': 2,
+            'Ré% Terre': 6,
+            'RéFix Terre': 2,
+            'Ré% Eau': 6,
+            'RéFix Eau': 2,
+            'Ré% Feu': 6,
+            'RéFix Feu': 2,
+            'Ré% Air': 6,
+            'RéFix Air': 2,
+            RéCrit: 2,
+            RéPou: 2,
+
+            'Do Mélée': 15,
+            'Ré% Mélée': 15,
+            'Do Distance': 15,
+            'Ré% Distance': 15,
+            'Do Armes': 15,
+            'Ré% Armes': 15,
+            'Do Sorts': 15,
+        } // maging weight
+
+        function format(n) {
+            const sep = ['k', 'M', 'B']
+            const power = Math.floor(Math.log10(n))
+            if (power < 3) {
+                return (Math.round(n * 10) / 10)
+                    .toString()
+                    .padStart('&nbsp;', 6)
+                    .substring(0, 6)
+            }
+            if (power >= 12) {
+                // full number no bullshit (so big every digit matters)
+                return n.toString()
+            }
+            const roundedString = (
+                Math.round(n / 10 ** (power - 3)) *
+                10 ** (power - 3)
+            ).toString()
+            const r = []
+            for (const char of roundedString) {
+                r.push(char)
+            }
+            return r
+                .reverse()
+                .reduce(
+                    (acc, val, i) => {
+                        if (i % 3 === 2 && i < r.length - 1) {
+                            return [...acc, val, sep[(i - 2) / 3]]
+                        }
+                        return [...acc, val]
+                    },
+                    [r.at(-1)]
+                )
+                .reverse()
+                .reduce((acc, val) => acc + val)
+                .substring(0, 6)
+        }
+        function toRunes(statBreakingWeight, stat) {
+            switch (stat) {
+                case 'Pods': {
+                    return statBreakingWeight / weight[stat] / 2.5
+                }
+                default: {
+                    const n = statBreakingWeight / weight[stat]
+                    return weight[stat] < 1 ? n * weight[stat] : n
+                }
+            }
+        }
+        function calculateRunes(trueRate, itemLevel) {
+            const nRunes = {}
+            let breakingWeight = 0
+            for (const stat of allStats) {
+                const statWeight =
+                    stats[stat] > 0
+                        ? (3 * stats[stat] * weight[stat] * itemLevel) / 200 + 1
+                        : 0
+                breakingWeight += (statWeight * trueRate) / 100
+                nRunes[stat] = [toRunes((statWeight * trueRate) / 100, stat)]
+            }
+            breakingWeight /= 2
+            for (const stat of allStats) {
+                nRunes[stat].push(
+                    stats[stat] > 0 ? toRunes(breakingWeight, stat) : 0
+                )
+            }
+            return nRunes
+        }
+        function resetStats() {
+            for (const stat of allStats) {
+                stats[stat] = 0
+                document.getElementById(stat).value = 0
+            }
+            highlightStatInputs()
+        }
+        function refreshStats() {
+            for (const stat of allStats) {
+                stats[stat] =
+                    parseFloat(document.getElementById(stat).value) || 0
+                price[stat] =
+                    parseFloat(
+                        document.getElementById(`price-${stat}`).value
+                    ) || 0
+            }
+            highlightStatInputs()
+        }
+        function refreshAndCalcRunes() {
+            const trueRate =
+                parseInt(document.getElementById('brisage-Rate-input').value) ||
+                0
+            refreshStats()
+            return calculateRunes(
+                trueRate,
+                parseInt(document.getElementById('itemLevel').value) || 200
+            )
+        }
+        function refreshAndCalcKamas() {
+            const nRunes = refreshAndCalcRunes()
+            const focus = document.getElementById('brisage-Focus-select').value
+            const resultNode = document.getElementById('runesGenKamas')
+            const bestFocusNode = document.getElementById(
+                'brisage-FocusBest-text'
+            )
+            let bestStat = ''
+            let maxValue = 0
+            let totNoFocus = 0
+            for (const stat of allStats) {
+                const focusValue = nRunes[stat][1] * price[stat]
+                totNoFocus += nRunes[stat][0] * price[stat]
+                if (focusValue > maxValue) {
+                    bestStat = stat
+                    maxValue = focusValue
+                }
+            }
+            if (totNoFocus > maxValue) {
+                bestStat = 'Aucun Focus'
+            }
+            if (focus === 'Aucun Focus') {
+                resultNode.textContent = format(totNoFocus)
+            } else if (!nRunes[focus]) {
+                resultNode.textContent = 'Invalide'
+            } else {
+                const tot = nRunes[focus][1] * price[focus]
+                resultNode.textContent = format(tot)
+            }
+            bestFocusNode.textContent = bestStat
+        }
+        function adjustInputWidth(inputNode, value = false) {
+            inputNode.size = value
+                ? value
+                : Math.max(inputNode.value.length - 1, 1)
+        }
+        function highlightStatInputs() {
+            for (const stat of allStats) {
+                const node = document.getElementById(stat)
+                const hasData = node.value !== '0' && node.value.length > 0
+                node.style.backgroundColor = hasData ? 'green' : '#757674'
+                node.style.color = hasData ? 'black' : '#eaebe7'
+            }
+        }
+        function toStatName(id, elementID) {
+            const index = {
+                1: 'PA',
+                10: 'Force',
+                11: 'Vitalité',
+                12: 'Sagesse',
+                13: 'Chance',
+                14: 'Agilité',
+                15: 'Intelligence',
+                16: 'Dommages',
+                18: 'Critique',
+                19: 'PO',
+                23: 'PM',
+                25: 'Puissance',
+                26: 'Invocation',
+                27: 'Esquive PA',
+                28: 'Esquive PM',
+                33: 'Ré% Terre',
+                34: 'Ré% Feu',
+                35: 'Ré% Eau',
+                36: 'Ré% Air',
+                37: 'Ré% Neutre',
+                40: 'Pods',
+                44: 'Initiative',
+                48: 'Prospection',
+                49: 'Soin',
+                54: 'RéFix Terre',
+                55: 'RéFix Feu',
+                56: 'RéFix Eau',
+                57: 'RéFix Air',
+                58: 'RéFix Neutre',
+                78: 'Fuite',
+                79: 'Tacle',
+                82: 'Retrait PA',
+                83: 'Retrait PM',
+                84: 'DoPou',
+                85: 'RéPou',
+                86: 'Do Critiques',
+                87: 'RéCrit',
+                88: 'Do Terre',
+                89: 'Do Feu',
+                90: 'Do Eau',
+                91: 'Do Air',
+                92: 'Do Neutre',
+                120: 'Do Distance',
+                121: 'Ré% Distance',
+                122: 'Do Armes',
+                123: 'Do Sorts',
+                124: 'Ré% Mélée',
+                125: 'Do Mélée',
+                142: 'Ré% Armes',
+            }
+            return index[id] || `Unknown Stat : ${id}`
+        }
+        function loadItem(item) {
+            // remove the search results in head container
+            // grab what should stay
+            const headContainer = document.getElementById('recapContainer')
+            const oldChildren = headContainer.children
+            const newChildren = []
+            for (let i = 0; i < oldChildren.length && i < 7; ++i) {
+                newChildren.push(oldChildren[i])
+            }
+            headContainer.replaceChildren(...newChildren)
+            // get stats and shove them into DOM
+            for (const stat of allStats) {
+                document.getElementById(stat).value = 0
+            }
+            for (const effect of item.effects) {
+                try {
+                    document.getElementById(effect.statName).value = Math.max(
+                        effect.to,
+                        effect.from
+                    )
+                } catch (err) {
+                    console.log(err)
+                    console.log(effect)
+                }
+            }
+            document.getElementById('itemLevel').value = item.lvl
+            document.getElementById('itemName').value = item.name
+            // reset focus to none
+            document.getElementById('brisage-Focus-select').value =
+                'Aucun Focus'
+            // refresh
+            refreshAndCalcKamas()
+            return 0
+        }
+        async function search(stringOfText) {
+            const response = await fetch(
+                `https://api.beta.dofusdb.fr/items?typeId[$ne]=49&typeId[$lt]=30&$sort=-id&slug.fr[$search]=${stringOfText}&level[$gte]=0&level[$lte]=200&$skip=0&lang=fr`
+            )
+            const responseData = (await response.json()).data
+            const items = responseData
+                .filter(
+                    (el) =>
+                        el?.effects.length &&
+                        el?.typeId < 90 &&
+                        !(el?.typeId in [75])
+                )
+                .map((el) => {
+                    return {
+                        name: el.name.fr,
+                        imgSRC:
+                            el.imgset.filter((imgObj) => imgObj.size === 60)[0]
+                                .url || './images/cancel.png',
+                        effects: el.effects
+                            .filter((effect) => effect.category in [0, 1])
+                            .map((effect) => {
+                                return {
+                                    statName: toStatName(
+                                        effect.characteristic,
+                                        effect.elementId
+                                    ),
+                                    from: effect.from,
+                                    to: effect.to,
+                                    cat: effect.category,
+                                }
+                            }),
+                        lvl: el.level,
+                    }
+                })
+
+            // @LOG
+            /*
+            console.log(
+                responseData.filter(
+                    (el) =>
+                        el?.effects.length &&
+                        el?.typeId < 90 &&
+                        !el?.typeId in [75]
+                )
+            )
+            */
+            return items
+        }
+        async function searchAndUpdate(stringOfText) {
+            const searchResult = await search(stringOfText)
+            // grab what should stay
+            const headContainer = document.getElementById('recapContainer')
+            const oldChildren = headContainer.children
+            const newChildren = []
+            for (let i = 0; i < oldChildren.length && i < 7; ++i) {
+                newChildren.push(oldChildren[i])
+            }
+            // update DOM with results
+            for (const item of searchResult) {
+                // console.log(item)
+                const newDiv = document.createElement('div')
+                newDiv.id = `itemSuggestion-div-'${item.name}'`
+                newDiv.classList.add('grid-item-wide-sugg')
+                newDiv.__itemData = item // try custom attribute
+                newDiv.onclick = () => loadItem(item)
+
+                const icon = document.createElement('img')
+                icon.id = `itemSuggestion-icon-'${item.name}'`
+                icon.src = item.imgSRC
+                icon.style.width = '30px'
+                icon.style.verticalAlign = 'middle'
+                icon.title = item.name
+                newDiv.appendChild(icon)
+
+                const txt = document.createElement('text')
+                txt.id = `itemSuggestion-txt-'${item.name}'`
+                txt.classList.add('itemSugg')
+                txt.textContent = item.name
+                newDiv.appendChild(txt)
+
+                newChildren.push(newDiv)
+
+                // spacer
+                const newDivInvis = document.createElement('div')
+                newDivInvis.id = `itemSuggestion-div-'${item.name}'-spacer`
+                newDivInvis.classList.add('grid-item-wide-invis')
+                newChildren.push(newDivInvis)
+            }
+            headContainer.replaceChildren(...newChildren)
+        }
+        function searchIfStalled(nodeId) {
+            const older = document.getElementById(nodeId).value
+            setTimeout(() => {
+                const newer = document.getElementById(nodeId).value
+                if (newer === older) {
+                    searchAndUpdate(newer)
+                }
+            }, 600)
+        }
+    </script>
+    <body
+        style="
+            background-color: #1e1f1b;
+            font-family: 'Courier New', Courier, monospace;
+            color: #eaebe7;
+        "
+    >
+        <!-- body -->
+        <div
+            class="grid-container"
+            id="recapContainer"
+            style="grid-template-columns: repeat(12, minmax(0, 1fr))"
+        >
+            <div class="grid-item-fullwidth" id="title-recap">
+                <p>Brisage</p>
+            </div>
+            <div class="grid-item-wide" id="brisage-Focus">
+                <img
+                    src="./images/focus.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                    title="Focus"
+                />
+                <select
+                    id="brisage-Focus-select"
+                    onclick="refreshAndCalcKamas();"
+                >
+                    <option class="myOption" value="Aucun Focus">
+                        Aucun Focus
+                    </option>
+                    <option class="myOption" value="-Stats de Base-">
+                        -Stats de Base-
+                    </option>
+                    <option class="myOption" value="PA">PA</option>
+                    <option class="myOption" value="PO">PO</option>
+                    <option class="myOption" value="PM">PM</option>
+                    <option class="myOption" value="Invocation">
+                        Invocation
+                    </option>
+                    <option class="myOption" value="Vitalité">Vitalité</option>
+                    <option class="myOption" value="Sagesse">Sagesse</option>
+                    <option class="myOption" value="Puissance">
+                        Puissance
+                    </option>
+                    <option class="myOption" value="Force">Force</option>
+                    <option class="myOption" value="Chance">Chance</option>
+                    <option class="myOption" value="Intelligence">
+                        Intelligence
+                    </option>
+                    <option class="myOption" value="Agilité">Agilité</option>
+
+                    <option class="myOption" value="-Stats Secondaires-">
+                        -Stats Secondaires-
+                    </option>
+                    <option class="myOption" value="Tacle">Tacle</option>
+                    <option class="myOption" value="Fuite">Fuite</option>
+                    <option class="myOption" value="Esquive PA">
+                        Esquive PA
+                    </option>
+                    <option class="myOption" value="Esquive PM">
+                        Esquive PM
+                    </option>
+                    <option class="myOption" value="Retrait PA">
+                        Retrait PA
+                    </option>
+                    <option class="myOption" value="Retrait PM">
+                        Retrait PM
+                    </option>
+                    <option class="myOption" value="Initiative">
+                        Initiative
+                    </option>
+                    <option class="myOption" value="Prospection">
+                        Prospection
+                    </option>
+                    <option class="myOption" value="Soin">Soin</option>
+                    <option class="myOption" value="Pods">Pods</option>
+
+                    <option class="myOption" value="-Dommages-">
+                        -Dommages-
+                    </option>
+                    <option class="myOption" value="Critique">Critique</option>
+                    <option class="myOption" value="Do Critiques">
+                        Do Critiques
+                    </option>
+                    <option class="myOption" value="DoPou">DoPou</option>
+                    <option class="myOption" value="Dommages">Dommages</option>
+                    <option class="myOption" value="Do Neutre">
+                        Do Neutre
+                    </option>
+                    <option class="myOption" value="Do Terre">Do Terre</option>
+                    <option class="myOption" value="Do Eau">Do Eau</option>
+                    <option class="myOption" value="Do Feu">Do Feu</option>
+                    <option class="myOption" value="Do Air">Do Air</option>
+
+                    <option class="myOption" value="-Résistances-">
+                        -Résistances-
+                    </option>
+                    <option class="myOption" value="Ré% Neutre">
+                        Ré% Neutre
+                    </option>
+                    <option class="myOption" value="RéFix Neutre">
+                        RéFix Neutre
+                    </option>
+                    <option class="myOption" value="Ré% Terre">
+                        Ré% Terre
+                    </option>
+                    <option class="myOption" value="RéFix Terre">
+                        RéFix Terre
+                    </option>
+                    <option class="myOption" value="Ré% Eau">Ré% Eau</option>
+                    <option class="myOption" value="RéFix Eau">
+                        RéFix Eau
+                    </option>
+                    <option class="myOption" value="Ré% Feu">Ré% Feu</option>
+                    <option class="myOption" value="RéFix Feu">
+                        RéFix Feu
+                    </option>
+                    <option class="myOption" value="Ré% Air">Ré% Air</option>
+                    <option class="myOption" value="RéFix Air">
+                        RéFix Air
+                    </option>
+                    <option class="myOption" value="RéCrit">RéCrit</option>
+                    <option class="myOption" value="RéPou">RéPou</option>
+
+                    <option class="myOption" value="-% Dommages-">
+                        -% Dommages-
+                    </option>
+                    <option class="myOption" value="Do Mélée">Do Mélée</option>
+                    <option class="myOption" value="Ré% Mélée">
+                        Ré% Mélée
+                    </option>
+                    <option class="myOption" value="Do Distance">
+                        Do Distance
+                    </option>
+                    <option class="myOption" value="Ré% Distance">
+                        Ré% Distance
+                    </option>
+                    <option class="myOption" value="Do Armes">Do Armes</option>
+                    <option class="myOption" value="Ré% Armes">
+                        Ré% Armes
+                    </option>
+                    <option class="myOption" value="Do Sorts">Do Sorts</option>
+                </select>
+            </div>
+            <div class="grid-item-wide" id="brisage-Rate">
+                <img
+                    src="./images/crusher.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                    title="Taux"
+                />
+                <input
+                    id="brisage-Rate-input"
+                    class="myInput"
+                    oninput="refreshAndCalcKamas();"
+                />
+                %
+            </div>
+            <div
+                class="grid-item-wide"
+                id="brisage-FocusBest"
+                onclick="document.getElementById('brisage-Focus-select').value = document.getElementById('brisage-FocusBest-text').textContent;refreshAndCalcKamas();"
+            >
+                <img
+                    src="./images/brain.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                    title="Meilleur Focus"
+                />
+                <text id="brisage-FocusBest-text" class="recapTextL"
+                    >Aucun Focus</text
+                >
+            </div>
+            <div class="grid-item-wide" id="brisage-Kamas">
+                <img
+                    src="./images/kamas_stack.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                    title="Valeur des runes générées"
+                />
+                <text class="recapTextR" id="runesGenKamas">0</text>
+            </div>
+            <div class="grid-item-wide" id="brisage-Item">
+                <img
+                    src="./images/search.png"
+                    width="20px"
+                    style="vertical-align: middle"
+                    title="Nom de l'item"
+                />
+                <input
+                    class="myInput"
+                    id="itemName"
+                    oninput="searchIfStalled(this.id)"
+                />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    width="20"
+                    onclick="document.getElementById('itemName').value = '';resetStats();"
+                    style="vertical-align: middle"
+                />
+                <input
+                    type="image"
+                    src="./images/refresh.png"
+                    width="20"
+                    onclick="searchAndUpdate(document.getElementById('itemName').value);"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="brisage-Kamas">
+                <img
+                    src="./images/setting.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                    title="Niveau de l'item"
+                />
+                <input class="myInput" id="itemLevel" />
+                <div style="display: inline-block; width: 38px"></div>
+            </div>
+        </div>
+        <div name="spacer" style="display: block; height: 40px"></div>
+        <!-- Collapse here lol -->
+        <div
+            class="grid-container"
+            id="fullContainer"
+            style="grid-template-columns: repeat(12, minmax(0, 1fr))"
+        >
+            <!-- Insert divs here-->
+
+            <div class="grid-item-fullwidth" id="title0">
+                <p>Stats de Base</p>
+            </div>
+            <div class="grid-item-wide" id="stat-0">
+                <img
+                    src="./images/PA.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">PA</text>
+                <input id="PA" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('PA').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-PA" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-1">
+                <img
+                    src="./images/PO.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">PO</text>
+                <input id="PO" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('PO').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-PO" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-2">
+                <img
+                    src="./images/PM.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">PM</text>
+                <input id="PM" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('PM').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-PM" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-3">
+                <img
+                    src="./images/Invocation.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Invocation</text>
+                <input id="Invocation" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Invocation').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Invocation" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-thin" id="stat-4">
+                <img
+                    src="./images/Vitalité.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Vitalité</text>
+                <input id="Vitalité" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Vitalité').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Vitalité" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-thin" id="stat-5">
+                <img
+                    src="./images/Sagesse.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Sagesse</text>
+                <input id="Sagesse" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Sagesse').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Sagesse" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-thin" id="stat-6">
+                <img
+                    src="./images/Puissance.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Puissance</text>
+                <input id="Puissance" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Puissance').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Puissance" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-7">
+                <img
+                    src="./images/Force.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Force</text>
+                <input id="Force" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Force').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Force" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-8">
+                <img
+                    src="./images/Chance.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Chance</text>
+                <input id="Chance" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Chance').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Chance" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-9">
+                <img
+                    src="./images/Intelligence.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Intelligence</text>
+                <input id="Intelligence" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Intelligence').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Intelligence" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-10">
+                <img
+                    src="./images/Agilité.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Agilité</text>
+                <input id="Agilité" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Agilité').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Agilité" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+
+            <div class="grid-item-fullwidth" id="title1">
+                <p>Stats Secondaires</p>
+            </div>
+            <div class="grid-item-wide" id="stat-11">
+                <img
+                    src="./images/Tacle.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Tacle</text>
+                <input id="Tacle" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Tacle').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Tacle" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-12">
+                <img
+                    src="./images/Fuite.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Fuite</text>
+                <input id="Fuite" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Fuite').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Fuite" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-13">
+                <img
+                    src="./images/Esquive PA.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Esquive PA</text>
+                <input id="Esquive PA" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Esquive PA').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Esquive PA" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-14">
+                <img
+                    src="./images/Esquive PM.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Esquive PM</text>
+                <input id="Esquive PM" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Esquive PM').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Esquive PM" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-15">
+                <img
+                    src="./images/Retrait PA.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Retrait PA</text>
+                <input id="Retrait PA" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Retrait PA').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Retrait PA" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-16">
+                <img
+                    src="./images/Retrait PM.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Retrait PM</text>
+                <input id="Retrait PM" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Retrait PM').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Retrait PM" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-17">
+                <img
+                    src="./images/Initiative.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Initiative</text>
+                <input id="Initiative" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Initiative').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Initiative" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-18">
+                <img
+                    src="./images/Prospection.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Prospection</text>
+                <input id="Prospection" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Prospection').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Prospection" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-19">
+                <img
+                    src="./images/Soin.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Soin</text>
+                <input id="Soin" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Soin').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Soin" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-20">
+                <img
+                    src="./images/Pods.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Pods</text>
+                <input id="Pods" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Pods').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Pods" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+
+            <div class="grid-item-fullwidth" id="title2">
+                <p>Dommages</p>
+            </div>
+            <div class="grid-item-thin" id="stat-21">
+                <img
+                    src="./images/Critique.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Critique</text>
+                <input id="Critique" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Critique').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Critique" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-thin" id="stat-22">
+                <img
+                    src="./images/Do Critiques.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Do Critiques</text>
+                <input id="Do Critiques" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Do Critiques').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Do Critiques" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-thin" id="stat-23">
+                <img
+                    src="./images/DoPou.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">DoPou</text>
+                <input id="DoPou" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('DoPou').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-DoPou" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-24">
+                <img
+                    src="./images/Dommages.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Dommages</text>
+                <input id="Dommages" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Dommages').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Dommages" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-25">
+                <img
+                    src="./images/Do Neutre.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Do Neutre</text>
+                <input id="Do Neutre" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Do Neutre').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Do Neutre" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-26">
+                <img
+                    src="./images/Do Terre.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Do Terre</text>
+                <input id="Do Terre" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Do Terre').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Do Terre" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-27">
+                <img
+                    src="./images/Do Eau.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Do Eau</text>
+                <input id="Do Eau" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Do Eau').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Do Eau" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-28">
+                <img
+                    src="./images/Do Feu.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Do Feu</text>
+                <input id="Do Feu" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Do Feu').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Do Feu" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-29">
+                <img
+                    src="./images/Do Air.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Do Air</text>
+                <input id="Do Air" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Do Air').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Do Air" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+
+            <div class="grid-item-fullwidth" id="title3">
+                <p>Résistances</p>
+            </div>
+            <div class="grid-item-wide" id="stat-30">
+                <img
+                    src="./images/Ré% Neutre.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Ré% Neutre</text>
+                <input id="Ré% Neutre" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Ré% Neutre').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Ré% Neutre" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-31">
+                <img
+                    src="./images/RéFix Neutre.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">RéFix Neutre</text>
+                <input id="RéFix Neutre" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('RéFix Neutre').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-RéFix Neutre" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-32">
+                <img
+                    src="./images/Ré% Terre.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Ré% Terre</text>
+                <input id="Ré% Terre" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Ré% Terre').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Ré% Terre" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-33">
+                <img
+                    src="./images/RéFix Terre.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">RéFix Terre</text>
+                <input id="RéFix Terre" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('RéFix Terre').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-RéFix Terre" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-34">
+                <img
+                    src="./images/Ré% Eau.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Ré% Eau</text>
+                <input id="Ré% Eau" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Ré% Eau').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Ré% Eau" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-35">
+                <img
+                    src="./images/RéFix Eau.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">RéFix Eau</text>
+                <input id="RéFix Eau" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('RéFix Eau').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-RéFix Eau" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-36">
+                <img
+                    src="./images/Ré% Feu.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Ré% Feu</text>
+                <input id="Ré% Feu" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Ré% Feu').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Ré% Feu" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-37">
+                <img
+                    src="./images/RéFix Feu.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">RéFix Feu</text>
+                <input id="RéFix Feu" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('RéFix Feu').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-RéFix Feu" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-38">
+                <img
+                    src="./images/Ré% Air.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Ré% Air</text>
+                <input id="Ré% Air" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Ré% Air').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Ré% Air" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-39">
+                <img
+                    src="./images/RéFix Air.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">RéFix Air</text>
+                <input id="RéFix Air" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('RéFix Air').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-RéFix Air" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-40">
+                <img
+                    src="./images/RéCrit.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">RéCrit</text>
+                <input id="RéCrit" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('RéCrit').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-RéCrit" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-41">
+                <img
+                    src="./images/RéPou.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">RéPou</text>
+                <input id="RéPou" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('RéPou').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-RéPou" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+
+            <div class="grid-item-fullwidth" id="title4">
+                <p>% Dommages</p>
+            </div>
+            <div class="grid-item-wide" id="stat-42">
+                <img
+                    src="./images/Do Mélée.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Do Mélée</text>
+                <input id="Do Mélée" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Do Mélée').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Do Mélée" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-43">
+                <img
+                    src="./images/Ré% Mélée.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Ré% Mélée</text>
+                <input id="Ré% Mélée" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Ré% Mélée').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Ré% Mélée" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-44">
+                <img
+                    src="./images/Do Distance.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Do Distance</text>
+                <input id="Do Distance" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Do Distance').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Do Distance" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-45">
+                <img
+                    src="./images/Ré% Distance.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Ré% Distance</text>
+                <input id="Ré% Distance" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Ré% Distance').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Ré% Distance" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-46">
+                <img
+                    src="./images/Do Armes.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Do Armes</text>
+                <input id="Do Armes" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Do Armes').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Do Armes" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-47">
+                <img
+                    src="./images/Ré% Armes.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Ré% Armes</text>
+                <input id="Ré% Armes" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Ré% Armes').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Ré% Armes" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-48">
+                <img
+                    src="./images/Do Sorts.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Do Sorts</text>
+                <input id="Do Sorts" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Do Sorts').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Do Sorts" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+        </div>
+    </body>
+    <script>
+        for (const stat of allStats) {
+            adjustInputWidth(document.getElementById(stat), 2)
+            document.getElementById(stat).oninput = refreshAndCalcKamas
+            adjustInputWidth(document.getElementById(`price-${stat}`), 4)
+            document.getElementById(`price-${stat}`).oninput =
+                refreshAndCalcKamas
+        }
+        // add
+        adjustInputWidth(document.getElementById('brisage-Rate-input'), 4)
+        document.getElementById('brisage-Rate-input').value = '100'
+        adjustInputWidth(document.getElementById('itemLevel'), 2)
+        document.getElementById('itemLevel').value = '200'
+
+        refreshAndCalcKamas()
+    </script>
+</html>
