@@ -183,6 +183,58 @@
             'Ré% Armes',
             'Do Sorts',
         ]
+        const defaultPrice = {
+            Vitalité: 200,
+            Sagesse: 75,
+            Force: 120,
+            Intelligence: 80,
+            Chance: 45,
+            Agilité: 150,
+            Puissance: 150,
+            PA: 37000,
+            PM: 28000,
+            PO: 8500,
+            Critique: 2100,
+            Invocation: 3500,
+            Soin: 560,
+            Tacle: 960,
+            Fuite: 580,
+            'Retrait PM': 350,
+            'Retrait PA': 300,
+            Initiative: 85,
+            Pods: 360,
+            Prospection: 250,
+            'Arme de Chasse': 2200, // todo : add
+            Dommages: 1400,
+            'Do Critiques': 1100,
+            DoPou: 300,
+            'Do Neutre': 1400,
+            'Do Terre': 1350,
+            'Do Feu': 1250,
+            'Do Eau': 950,
+            'Do Air': 1300,
+            'Do Mélée': 3000,
+            'Do Distance': 19500,
+            'Do Armes': 500,
+            'Do Sorts': 13000,
+            'Ré% Neutre': 1450,
+            'Ré% Terre': 1200,
+            'Ré% Feu': 1100,
+            'Ré% Eau': 1450,
+            'Ré% Air': 1250,
+            'RéFix Neutre': 280,
+            'RéFix Terre': 390,
+            'RéFix Feu': 230,
+            'RéFix Eau': 300,
+            'RéFix Air': 260,
+            RéCrit: 500,
+            RéPou: 50,
+            'Esquive PA': 480,
+            'Esquive PM': 820,
+            'Ré% Mêlée': 2200,
+            'Ré% Distance': 3500,
+            'Ré% Armes': 0,
+        }
         let stats = {}
         const price = {}
         const weight = {
@@ -306,6 +358,14 @@
                 )
             }
             return nRunes
+        }
+        function initPrices() {
+            for (const stat of allStats) {
+                const node = document.getElementById(`price-${stat}`)
+                if (!node.value || node.value === '0') {
+                    node.value = defaultPrice[stat]
+                }
+            }
         }
         function resetStats() {
             for (const stat of allStats) {
@@ -2011,6 +2071,7 @@
         adjustInputWidth(document.getElementById('itemLevel'), 2)
         document.getElementById('itemLevel').value = '200'
 
+        initPrices()
         refreshAndCalcKamas()
     </script>
 </html>
