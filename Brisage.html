@@ -369,6 +369,12 @@
                 }
             }
         }
+        function resetPrices() {
+            for (const stat of allStats) {
+                const node = (document.getElementById(`price-${stat}`).value =
+                    defaultPrice[stat])
+            }
+        }
         function resetStats() {
             for (const stat of allStats) {
                 stats[stat] = 0
