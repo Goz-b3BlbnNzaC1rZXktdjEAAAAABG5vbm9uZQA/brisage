@@ -624,13 +624,16 @@
                 newChildren.push(newDivInvis)
             }
             headContainer.replaceChildren(...newChildren)
+            return 0
         }
-        function searchIfStalled(nodeId) {
-            const older = document.getElementById(nodeId).value
+        function searchIfStalled() {
+            const older = document.getElementById('itemName').value
             setTimeout(() => {
-                const newer = document.getElementById(nodeId).value
+                const newer = document.getElementById('itemName').value
                 if (newer === older) {
-                    searchAndUpdate(newer)
+                    searchAndUpdate(newer).then(() =>
+                        document.getElementById('itemName').focus()
+                    )
                 }
             }, 600)
         }
@@ -827,7 +830,7 @@
                 <input
                     class="myInput"
                     id="itemName"
-                    oninput="searchIfStalled(this.id);"
+                    oninput="searchIfStalled();"
                 />
                 <input
                     type="image"
