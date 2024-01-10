@@ -135,6 +135,7 @@
             'Invocation',
             'Vitalité',
             'Sagesse',
+            'Chasse',
             'Puissance',
             'Force',
             'Chance',
@@ -175,8 +176,8 @@
             'RéCrit',
             'RéPou',
 
-            'Do Mélée',
-            'Ré% Mélée',
+            'Do Mêlée',
+            'Ré% Mêlée',
             'Do Distance',
             'Ré% Distance',
             'Do Armes',
@@ -204,7 +205,7 @@
             Initiative: 85,
             Pods: 360,
             Prospection: 250,
-            'Arme de Chasse': 2200, // todo : add
+            Chasse: 2200,
             Dommages: 1400,
             'Do Critiques': 1100,
             DoPou: 300,
@@ -213,7 +214,7 @@
             'Do Feu': 1250,
             'Do Eau': 950,
             'Do Air': 1300,
-            'Do Mélée': 3000,
+            'Do Mêlée': 3000,
             'Do Distance': 19500,
             'Do Armes': 500,
             'Do Sorts': 13000,
@@ -244,6 +245,7 @@
             Invocation: 30,
             Vitalité: 0.2,
             Sagesse: 3,
+            Chasse: 5,
             Puissance: 2,
             Force: 1,
             Chance: 1,
@@ -284,8 +286,8 @@
             RéCrit: 2,
             RéPou: 2,
 
-            'Do Mélée': 15,
-            'Ré% Mélée': 15,
+            'Do Mêlée': 15,
+            'Ré% Mêlée': 15,
             'Do Distance': 15,
             'Ré% Distance': 15,
             'Do Armes': 15,
@@ -441,6 +443,7 @@
         }
         function toStatName(id, elementID) {
             const index = {
+                0: 'Chasse',
                 1: 'PA',
                 10: 'Force',
                 11: 'Vitalité',
@@ -487,9 +490,10 @@
                 121: 'Ré% Distance',
                 122: 'Do Armes',
                 123: 'Do Sorts',
-                124: 'Ré% Mélée',
-                125: 'Do Mélée',
+                124: 'Ré% Mêlée',
+                125: 'Do Mêlée',
                 142: 'Ré% Armes',
+                // TODO : arme de chasse
             }
             return index[id] || `Unknown Stat : ${id}`
         }
@@ -552,12 +556,14 @@
                         effects: el.effects
                             .filter((effect) => effect.category in [0, 1])
                             .map((effect) => {
+                                const statName = toStatName(
+                                    effect.characteristic,
+                                    effect.elementId
+                                )
                                 return {
-                                    statName: toStatName(
-                                        effect.characteristic,
-                                        effect.elementId
-                                    ),
-                                    from: effect.from,
+                                    statName,
+                                    from:
+                                        statName === 'Chasse' ? 1 : effect.from,
                                     to: effect.to,
                                     cat: effect.category,
                                 }
@@ -758,9 +764,9 @@
                     <option class="myOption" value="-% Dommages-">
                         -% Dommages-
                     </option>
-                    <option class="myOption" value="Do Mélée">Do Mélée</option>
-                    <option class="myOption" value="Ré% Mélée">
-                        Ré% Mélée
+                    <option class="myOption" value="Do Mêlée">Do Mêlée</option>
+                    <option class="myOption" value="Ré% Mêlée">
+                        Ré% Mêlée
                     </option>
                     <option class="myOption" value="Do Distance">
                         Do Distance
@@ -959,7 +965,7 @@
                     style="vertical-align: middle"
                 />
             </div>
-            <div class="grid-item-thin" id="stat-4">
+            <div class="grid-item-wide" id="stat-4">
                 <img
                     src="https://www.dofusbook.net/assets/pv-mnIw6AUk.png"
                     width="30px"
@@ -983,7 +989,7 @@
                     style="vertical-align: middle"
                 />
             </div>
-            <div class="grid-item-thin" id="stat-5">
+            <div class="grid-item-wide" id="stat-5">
                 <img
                     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QzVGMkQzQjA2NUUyMTFFNkJGODRGNTRDMEYyOURCQTMiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QzVGMkQzQUY2NUUyMTFFNkJGODRGNTRDMEYyOURCQTMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmRpZDpFOTAxOTlGM0RENjVFNjExOTM2NEI1M0E2OEFGNkQ0NCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpFOTAxOTlGM0RENjVFNjExOTM2NEI1M0E2OEFGNkQ0NCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PpgPn3YAAATFSURBVHja7FdvTBtlGO/d9XptGQe043+hSwtFwG1uhsmGoFN0YcpAYMmMfkLd5ofFaIxxH0yM0W9LDHHGP1myLPphX9w/zRZCoiJBZ1gGGVVhAgNWWAst/d9ruV7P54Wn4WRSS5whLl7yy713b+95fu/z/J7nfUvJsqzayIv6n8BGE1D/iQ1FbWwE/msEKIwgC2AAxFAcIeHzv0aAONYCMhFafC8AgoAwjv+WyHoIUIo7B8gGFAGKAUYADQgB5gAuwDwgAFhMRSJdAhSGmjjWAHQA/uGKV2rLTfv2F+fuqostBsTx2Z7R3sH3eyMxzxjMTwBuA7yA2Fok0iVAnPOAXLyrMbybACa91lh5cO/ZDmtRozW66BN6hz643D984jLMjQAmAQtrkUiXgB7DXbFr++HdDufA3KxrcAzznAOwUhRt6XzmuzZzfkMe+WBg5NO+r/tfPQPDXwC3MBLiahJ0mmonKue0XLax5elP3j7QePJ5eM5QVIBKlhPi+R9e+imREBPkueaBo/U1lS+3wrAcUICLuMtfKgKMIu9LDSsa80W/utL58fnuI9/gPL9757HaF5+70MbQrGYhMBaYcV+bSxpo2H68iWW5ahiWALJWN75UBCgUG8m3AVdLHArX7WfsLrfdhepWmU11Wyylj1frdUaiCQFI+Cm0mpVhYbaWN3dg+gxYrlQ6BBgUWIGBt1bgCogBvqq8xbbZYNuMhgJnLx368r2u7DeDYecMIcCq9XSxZcVQad4ek1qtTkZgXQRIgymurX6tHe7EZAGn4XNeaD33RkfT6QOo6nksNyIyD6kMS0lNvi5jxZCOy2O1Wq4MF8St9qlO0emIaPKhtJ4ChbtBZAGodeZC95HPnG67A1OQbDJkVdqtlkNlJaWlvCStGBLjQYphmCxMqXo1gVQaIHMsq9bxrY+eehbGpLy4gRunbt6evTqDUTJgeswGvszW3NDVaAC9h3wrhnzhcTnt7VhxkTVEAZGJ2W9Hd9o6H4PwZ17qP/p9JOp2KSJEiGbDync013ftr9qWp5fhS49z2UhCjqsmXd2Loig60R6JWCKdRqTGrlfFZ5jqjrXbj3NsllaUIuLUnb5Jl3fYFZdiYqa+gLea6rdYLDajsRBYg3PHTRBHdNnI8NTnqj77O875efdJSUr0YmdcUJJYiwCFoiHh3bbnwdfb9j1y4iClyFgmbEU5+ZBYkFUM+mEQ+pzfQxrS8vxCaER18WqL6PW7+nw+/2l4dR0wRaKq7IZrpUDGkC2p/Ef7h1doms7Yu+PdJla9aYll0LeMv7qc3p9VPUOHpVDEcysQCPbAK8dam1KqvSDZjIjQzIBKc2Htkw0PvdVuLWzW0tTd3MMxp2po4iPVr9NfRCNC+He/338uHpeuwdRvgDu4d8jr2YyUJEg6rBAJW36uuclS9ERVpt6k1TB6RhAXVPOBG/Kcd0iIx+MeQRAGQ6FwH9gehW/G0XkYT0vr3g2VbTkPDyBFDEObNBqNmWXZAvhOA3aEWGzRAYqfTiQS0/CbGYQb8y79k+2YUhzDsvA0lINC1WHPkNBRELuiF09IMZy7J2fCJBEOHXO4Y1JYWiKKV8Cav6dnwtVEkt2SxrGMJCRFJd3f/wvuDwJ/CDAAQV/qtE8pXBoAAAAASUVORK5CYII="
                     width="30px"
@@ -1007,7 +1013,31 @@
                     style="vertical-align: middle"
                 />
             </div>
-            <div class="grid-item-thin" id="stat-6">
+            <div class="grid-item-wide" id="stat-5.5">
+                <img
+                    src="./images/Chasse.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Chasse</text>
+                <input id="Chasse" class="myInput" />
+                <input
+                    type="image"
+                    src="./images/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Chasse').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Chasse" class="myInput" />
+                <img
+                    src="./images/rune_kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-6">
                 <img
                     src="https://www.dofusbook.net/assets/pu-0C7s9BaP.png"
                     width="30px"
@@ -1893,18 +1923,18 @@
                     width="30px"
                     style="vertical-align: middle"
                 />
-                <text class="statName">Do Mélée</text>
-                <input id="Do Mélée" class="myInput" />
+                <text class="statName">Do Mêlée</text>
+                <input id="Do Mêlée" class="myInput" />
                 <input
                     type="image"
                     src="./images/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Do Mélée').value = '';"
+                    onclick="document.getElementById('Do Mêlée').value = '';"
                     style="vertical-align: middle"
                 />
                 <br />
-                <input id="price-Do Mélée" class="myInput" />
+                <input id="price-Do Mêlée" class="myInput" />
                 <img
                     src="./images/rune_kamas.png"
                     width="26px"
@@ -1917,18 +1947,18 @@
                     width="30px"
                     style="vertical-align: middle"
                 />
-                <text class="statName">Ré% Mélée</text>
-                <input id="Ré% Mélée" class="myInput" />
+                <text class="statName">Ré% Mêlée</text>
+                <input id="Ré% Mêlée" class="myInput" />
                 <input
                     type="image"
                     src="./images/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Ré% Mélée').value = '';"
+                    onclick="document.getElementById('Ré% Mêlée').value = '';"
                     style="vertical-align: middle"
                 />
                 <br />
-                <input id="price-Ré% Mélée" class="myInput" />
+                <input id="price-Ré% Mêlée" class="myInput" />
                 <img
                     src="./images/rune_kamas.png"
                     width="26px"
