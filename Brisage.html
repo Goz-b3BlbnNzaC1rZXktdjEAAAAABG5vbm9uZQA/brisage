@@ -120,6 +120,9 @@
                 font-size: 12px;
                 color: #eaebe7;
             }
+            .clickable {
+                cursor: pointer;
+            }
         </style>
     </head>
     <script>
@@ -294,6 +297,7 @@
             'Ré% Armes': 15,
             'Do Sorts': 15,
         } // maging weight
+        let kamasViewMode = 1
 
         function format(n) {
             const sep = ['k', 'M', 'B']
@@ -413,9 +417,14 @@
             let bestStat = ''
             let maxValue = 0
             let totNoFocus = 0
+            let totNoFocusLow = 0
+            let totNoFocusHigh = 0
             for (const stat of allStats) {
-                const focusValue = nRunes[stat][1] * price[stat]
                 totNoFocus += nRunes[stat][0] * price[stat]
+                totNoFocusLow += Math.floor(nRunes[stat][0]) * price[stat]
+                totNoFocusHigh += Math.ceil(nRunes[stat][0]) * price[stat]
+
+                const focusValue = nRunes[stat][1] * price[stat]
                 if (focusValue > maxValue) {
                     bestStat = stat
                     maxValue = focusValue
@@ -425,12 +434,20 @@
                 bestStat = 'Aucun Focus'
             }
             if (focus === 'Aucun Focus') {
-                resultNode.textContent = format(totNoFocus)
+                resultNode.textContent = kamasViewMode
+                    ? format(totNoFocus)
+                    : `${format(totNoFocusLow)} - ${format(totNoFocusHigh)}`
             } else if (!nRunes[focus]) {
                 resultNode.textContent = 'Invalide'
             } else {
                 const tot = nRunes[focus][1] * price[focus]
-                resultNode.textContent = format(tot)
+                resultNode.textContent = kamasViewMode
+                    ? format(tot)
+                    : `${format(
+                          Math.floor(nRunes[focus][1]) * price[focus]
+                      )} - ${format(
+                          Math.ceil(nRunes[focus][1]) * price[focus]
+                      )}`
             }
             bestFocusNode.textContent = bestStat
         }
@@ -446,6 +463,20 @@
                 node.style.backgroundColor = hasData ? 'green' : '#757674'
                 node.style.color = hasData ? 'black' : '#eaebe7'
             }
+        }
+        function toggleKamasViewMode() {
+            // hey
+            kamasViewMode = (kamasViewMode + 1) % 2
+            if (kamasViewMode) {
+                const imageToggleNode = document.getElementById('kamasViewMode')
+                imageToggleNode.src = 'https://i.ibb.co/YktN4fX/chart.png'
+                imageToggleNode.title = 'Afficher en mode min-max'
+            } else {
+                const imageToggleNode = document.getElementById('kamasViewMode')
+                imageToggleNode.src = 'https://i.ibb.co/DVPjLcL/average.png'
+                imageToggleNode.title = 'Afficher en mode moyenne'
+            }
+            refreshAndCalcKamas()
         }
         function toStatName(id, elementID) {
             const index = {
@@ -803,7 +834,7 @@
                 %
             </div>
             <div
-                class="grid-item-wide"
+                class="grid-item-wide clickable"
                 id="brisage-FocusBest"
                 onclick="document.getElementById('brisage-Focus-select').value = document.getElementById('brisage-FocusBest-text').textContent;refreshAndCalcKamas();"
             >
@@ -824,7 +855,15 @@
                     style="vertical-align: middle"
                     title="Valeur des runes générées"
                 />
-                <text class="recapTextR" id="runesGenKamas">0</text>
+                <text id="runesGenKamas">0</text>
+                <img
+                    src="https://i.ibb.co/YktN4fX/chart.png"
+                    id="kamasViewMode"
+                    width="20px"
+                    style="vertical-align: middle"
+                    title="Afficher en mode min-max"
+                    onclick="toggleKamasViewMode();"
+                />
             </div>
             <div class="grid-item-wide" id="brisage-Item">
                 <img
