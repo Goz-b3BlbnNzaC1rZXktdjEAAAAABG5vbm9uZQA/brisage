@@ -23,7 +23,7 @@
                 font-size: 20px;
                 text-align: center;
                 color: #eaebe7;
-                grid-column: span 6;
+                grid-column: span 4;
             }
             .grid-item-wide-invis {
                 border: 1px solid rgba(0, 0, 0, 0);
@@ -32,7 +32,7 @@
                 font-size: 20px;
                 text-align: center;
                 color: #eaebe7;
-                grid-column: span 6;
+                grid-column: span 8;
             }
             .grid-item-wide-sugg {
                 border: 1px solid rgba(0, 0, 0, 0.8);
@@ -41,7 +41,7 @@
                 font-size: 20px;
                 text-align: center;
                 color: #eaebe7;
-                grid-column: span 6;
+                grid-column: span 4;
             }
             .grid-item-thin {
                 border: 1px solid rgba(0, 0, 0, 0.8);
@@ -50,7 +50,7 @@
                 font-size: 20px;
                 text-align: center;
                 color: #eaebe7;
-                grid-column: span 4;
+                grid-column: span 3;
             }
             .grid-item-fullwidth {
                 border: 1px solid rgba(0, 0, 0, 0.8);
@@ -833,6 +833,43 @@
                 />
                 %
             </div>
+            <div class="grid-item-wide" id="brisage-Level">
+                <img
+                    src="https://i.ibb.co/r6Z9xxT/setting.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                    title="Niveau de l'item"
+                />
+                <input class="myInput" id="itemLevel" />
+                <div style="display: inline-block; width: 38px"></div>
+            </div>
+            <div class="grid-item-wide" id="brisage-Item">
+                <img
+                    src="https://i.ibb.co/ZYfq8ZN/search.png"
+                    width="20px"
+                    style="vertical-align: middle"
+                    title="Nom de l'item"
+                />
+                <input
+                    class="myInput"
+                    id="itemName"
+                    oninput="searchIfStalled();"
+                />
+                <input
+                    type="image"
+                    src="https://i.ibb.co/ypVgZFz/trash.png"
+                    width="20"
+                    onclick="document.getElementById('itemName').value = '';resetStats();"
+                    style="vertical-align: middle"
+                />
+                <input
+                    type="image"
+                    src="https://i.ibb.co/6gQxKn3/refresh.png"
+                    width="20"
+                    onclick="searchAndUpdate(document.getElementById('itemName').value);"
+                    style="vertical-align: middle"
+                />
+            </div>
             <div
                 class="grid-item-wide clickable"
                 id="brisage-FocusBest"
@@ -864,43 +901,6 @@
                     title="Afficher en mode min-max"
                     onclick="toggleKamasViewMode();"
                 />
-            </div>
-            <div class="grid-item-wide" id="brisage-Item">
-                <img
-                    src="https://i.ibb.co/ZYfq8ZN/search.png"
-                    width="20px"
-                    style="vertical-align: middle"
-                    title="Nom de l'item"
-                />
-                <input
-                    class="myInput"
-                    id="itemName"
-                    oninput="searchIfStalled();"
-                />
-                <input
-                    type="image"
-                    src="https://i.ibb.co/ypVgZFz/trash.png"
-                    width="20"
-                    onclick="document.getElementById('itemName').value = '';resetStats();"
-                    style="vertical-align: middle"
-                />
-                <input
-                    type="image"
-                    src="https://i.ibb.co/6gQxKn3/refresh.png"
-                    width="20"
-                    onclick="searchAndUpdate(document.getElementById('itemName').value);"
-                    style="vertical-align: middle"
-                />
-            </div>
-            <div class="grid-item-wide" id="brisage-Kamas">
-                <img
-                    src="https://i.ibb.co/r6Z9xxT/setting.png"
-                    width="30px"
-                    style="vertical-align: middle"
-                    title="Niveau de l'item"
-                />
-                <input class="myInput" id="itemLevel" />
-                <div style="display: inline-block; width: 38px"></div>
             </div>
         </div>
         <div name="spacer" style="display: block; height: 40px"></div>
@@ -939,30 +939,6 @@
                     style="vertical-align: middle"
                 />
             </div>
-            <div class="grid-item-wide" id="stat-1">
-                <img
-                    src="https://www.dofusbook.net/assets/po-nREuIgr_.png"
-                    width="30px"
-                    style="vertical-align: middle"
-                />
-                <text class="statName">PO</text>
-                <input id="PO" class="myInput" />
-                <input
-                    type="image"
-                    src="https://i.ibb.co/ypVgZFz/trash.png"
-                    name="resetStat"
-                    width="20"
-                    onclick="document.getElementById('PO').value = '';"
-                    style="vertical-align: middle"
-                />
-                <br />
-                <input id="price-PO" class="myInput" />
-                <img
-                    src="https://i.ibb.co/Z8CC699/rune-kamas.png"
-                    width="26px"
-                    style="vertical-align: middle"
-                />
-            </div>
             <div class="grid-item-wide" id="stat-2">
                 <img
                     src="https://www.dofusbook.net/assets/pm-su0r8xos.png"
@@ -987,6 +963,30 @@
                     style="vertical-align: middle"
                 />
             </div>
+            <div class="grid-item-wide" id="stat-1">
+                <img
+                    src="https://www.dofusbook.net/assets/po-nREuIgr_.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">PO</text>
+                <input id="PO" class="myInput" />
+                <input
+                    type="image"
+                    src="https://i.ibb.co/ypVgZFz/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('PO').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-PO" class="myInput" />
+                <img
+                    src="https://i.ibb.co/Z8CC699/rune-kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
             <div class="grid-item-wide" id="stat-3">
                 <img
                     src="https://www.dofusbook.net/assets/ic-KdzA4i0b.png"
@@ -1005,54 +1005,6 @@
                 />
                 <br />
                 <input id="price-Invocation" class="myInput" />
-                <img
-                    src="https://i.ibb.co/Z8CC699/rune-kamas.png"
-                    width="26px"
-                    style="vertical-align: middle"
-                />
-            </div>
-            <div class="grid-item-wide" id="stat-4">
-                <img
-                    src="https://www.dofusbook.net/assets/pv-mnIw6AUk.png"
-                    width="30px"
-                    style="vertical-align: middle"
-                />
-                <text class="statName">Vitalité</text>
-                <input id="Vitalité" class="myInput" />
-                <input
-                    type="image"
-                    src="https://i.ibb.co/ypVgZFz/trash.png"
-                    name="resetStat"
-                    width="20"
-                    onclick="document.getElementById('Vitalité').value = '';"
-                    style="vertical-align: middle"
-                />
-                <br />
-                <input id="price-Vitalité" class="myInput" />
-                <img
-                    src="https://i.ibb.co/Z8CC699/rune-kamas.png"
-                    width="26px"
-                    style="vertical-align: middle"
-                />
-            </div>
-            <div class="grid-item-wide" id="stat-5">
-                <img
-                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QzVGMkQzQjA2NUUyMTFFNkJGODRGNTRDMEYyOURCQTMiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QzVGMkQzQUY2NUUyMTFFNkJGODRGNTRDMEYyOURCQTMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmRpZDpFOTAxOTlGM0RENjVFNjExOTM2NEI1M0E2OEFGNkQ0NCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpFOTAxOTlGM0RENjVFNjExOTM2NEI1M0E2OEFGNkQ0NCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PpgPn3YAAATFSURBVHja7FdvTBtlGO/d9XptGQe043+hSwtFwG1uhsmGoFN0YcpAYMmMfkLd5ofFaIxxH0yM0W9LDHHGP1myLPphX9w/zRZCoiJBZ1gGGVVhAgNWWAst/d9ruV7P54Wn4WRSS5whLl7yy713b+95fu/z/J7nfUvJsqzayIv6n8BGE1D/iQ1FbWwE/msEKIwgC2AAxFAcIeHzv0aAONYCMhFafC8AgoAwjv+WyHoIUIo7B8gGFAGKAUYADQgB5gAuwDwgAFhMRSJdAhSGmjjWAHQA/uGKV2rLTfv2F+fuqostBsTx2Z7R3sH3eyMxzxjMTwBuA7yA2Fok0iVAnPOAXLyrMbybACa91lh5cO/ZDmtRozW66BN6hz643D984jLMjQAmAQtrkUiXgB7DXbFr++HdDufA3KxrcAzznAOwUhRt6XzmuzZzfkMe+WBg5NO+r/tfPQPDXwC3MBLiahJ0mmonKue0XLax5elP3j7QePJ5eM5QVIBKlhPi+R9e+imREBPkueaBo/U1lS+3wrAcUICLuMtfKgKMIu9LDSsa80W/utL58fnuI9/gPL9757HaF5+70MbQrGYhMBaYcV+bSxpo2H68iWW5ahiWALJWN75UBCgUG8m3AVdLHArX7WfsLrfdhepWmU11Wyylj1frdUaiCQFI+Cm0mpVhYbaWN3dg+gxYrlQ6BBgUWIGBt1bgCogBvqq8xbbZYNuMhgJnLx368r2u7DeDYecMIcCq9XSxZcVQad4ek1qtTkZgXQRIgymurX6tHe7EZAGn4XNeaD33RkfT6QOo6nksNyIyD6kMS0lNvi5jxZCOy2O1Wq4MF8St9qlO0emIaPKhtJ4ChbtBZAGodeZC95HPnG67A1OQbDJkVdqtlkNlJaWlvCStGBLjQYphmCxMqXo1gVQaIHMsq9bxrY+eehbGpLy4gRunbt6evTqDUTJgeswGvszW3NDVaAC9h3wrhnzhcTnt7VhxkTVEAZGJ2W9Hd9o6H4PwZ17qP/p9JOp2KSJEiGbDync013ftr9qWp5fhS49z2UhCjqsmXd2Loig60R6JWCKdRqTGrlfFZ5jqjrXbj3NsllaUIuLUnb5Jl3fYFZdiYqa+gLea6rdYLDajsRBYg3PHTRBHdNnI8NTnqj77O875efdJSUr0YmdcUJJYiwCFoiHh3bbnwdfb9j1y4iClyFgmbEU5+ZBYkFUM+mEQ+pzfQxrS8vxCaER18WqL6PW7+nw+/2l4dR0wRaKq7IZrpUDGkC2p/Ef7h1doms7Yu+PdJla9aYll0LeMv7qc3p9VPUOHpVDEcysQCPbAK8dam1KqvSDZjIjQzIBKc2Htkw0PvdVuLWzW0tTd3MMxp2po4iPVr9NfRCNC+He/338uHpeuwdRvgDu4d8jr2YyUJEg6rBAJW36uuclS9ERVpt6k1TB6RhAXVPOBG/Kcd0iIx+MeQRAGQ6FwH9gehW/G0XkYT0vr3g2VbTkPDyBFDEObNBqNmWXZAvhOA3aEWGzRAYqfTiQS0/CbGYQb8y79k+2YUhzDsvA0lINC1WHPkNBRELuiF09IMZy7J2fCJBEOHXO4Y1JYWiKKV8Cav6dnwtVEkt2SxrGMJCRFJd3f/wvuDwJ/CDAAQV/qtE8pXBoAAAAASUVORK5CYII="
-                    width="30px"
-                    style="vertical-align: middle"
-                />
-                <text class="statName">Sagesse</text>
-                <input id="Sagesse" class="myInput" />
-                <input
-                    type="image"
-                    src="https://i.ibb.co/ypVgZFz/trash.png"
-                    name="resetStat"
-                    width="20"
-                    onclick="document.getElementById('Sagesse').value = '';"
-                    style="vertical-align: middle"
-                />
-                <br />
-                <input id="price-Sagesse" class="myInput" />
                 <img
                     src="https://i.ibb.co/Z8CC699/rune-kamas.png"
                     width="26px"
@@ -1101,6 +1053,54 @@
                 />
                 <br />
                 <input id="price-Puissance" class="myInput" />
+                <img
+                    src="https://i.ibb.co/Z8CC699/rune-kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-4">
+                <img
+                    src="https://www.dofusbook.net/assets/pv-mnIw6AUk.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Vitalité</text>
+                <input id="Vitalité" class="myInput" />
+                <input
+                    type="image"
+                    src="https://i.ibb.co/ypVgZFz/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Vitalité').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Vitalité" class="myInput" />
+                <img
+                    src="https://i.ibb.co/Z8CC699/rune-kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-5">
+                <img
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QzVGMkQzQjA2NUUyMTFFNkJGODRGNTRDMEYyOURCQTMiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QzVGMkQzQUY2NUUyMTFFNkJGODRGNTRDMEYyOURCQTMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmRpZDpFOTAxOTlGM0RENjVFNjExOTM2NEI1M0E2OEFGNkQ0NCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpFOTAxOTlGM0RENjVFNjExOTM2NEI1M0E2OEFGNkQ0NCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PpgPn3YAAATFSURBVHja7FdvTBtlGO/d9XptGQe043+hSwtFwG1uhsmGoFN0YcpAYMmMfkLd5ofFaIxxH0yM0W9LDHHGP1myLPphX9w/zRZCoiJBZ1gGGVVhAgNWWAst/d9ruV7P54Wn4WRSS5whLl7yy713b+95fu/z/J7nfUvJsqzayIv6n8BGE1D/iQ1FbWwE/msEKIwgC2AAxFAcIeHzv0aAONYCMhFafC8AgoAwjv+WyHoIUIo7B8gGFAGKAUYADQgB5gAuwDwgAFhMRSJdAhSGmjjWAHQA/uGKV2rLTfv2F+fuqostBsTx2Z7R3sH3eyMxzxjMTwBuA7yA2Fok0iVAnPOAXLyrMbybACa91lh5cO/ZDmtRozW66BN6hz643D984jLMjQAmAQtrkUiXgB7DXbFr++HdDufA3KxrcAzznAOwUhRt6XzmuzZzfkMe+WBg5NO+r/tfPQPDXwC3MBLiahJ0mmonKue0XLax5elP3j7QePJ5eM5QVIBKlhPi+R9e+imREBPkueaBo/U1lS+3wrAcUICLuMtfKgKMIu9LDSsa80W/utL58fnuI9/gPL9757HaF5+70MbQrGYhMBaYcV+bSxpo2H68iWW5ahiWALJWN75UBCgUG8m3AVdLHArX7WfsLrfdhepWmU11Wyylj1frdUaiCQFI+Cm0mpVhYbaWN3dg+gxYrlQ6BBgUWIGBt1bgCogBvqq8xbbZYNuMhgJnLx368r2u7DeDYecMIcCq9XSxZcVQad4ek1qtTkZgXQRIgymurX6tHe7EZAGn4XNeaD33RkfT6QOo6nksNyIyD6kMS0lNvi5jxZCOy2O1Wq4MF8St9qlO0emIaPKhtJ4ChbtBZAGodeZC95HPnG67A1OQbDJkVdqtlkNlJaWlvCStGBLjQYphmCxMqXo1gVQaIHMsq9bxrY+eehbGpLy4gRunbt6evTqDUTJgeswGvszW3NDVaAC9h3wrhnzhcTnt7VhxkTVEAZGJ2W9Hd9o6H4PwZ17qP/p9JOp2KSJEiGbDync013ftr9qWp5fhS49z2UhCjqsmXd2Loig60R6JWCKdRqTGrlfFZ5jqjrXbj3NsllaUIuLUnb5Jl3fYFZdiYqa+gLea6rdYLDajsRBYg3PHTRBHdNnI8NTnqj77O875efdJSUr0YmdcUJJYiwCFoiHh3bbnwdfb9j1y4iClyFgmbEU5+ZBYkFUM+mEQ+pzfQxrS8vxCaER18WqL6PW7+nw+/2l4dR0wRaKq7IZrpUDGkC2p/Ef7h1doms7Yu+PdJla9aYll0LeMv7qc3p9VPUOHpVDEcysQCPbAK8dam1KqvSDZjIjQzIBKc2Htkw0PvdVuLWzW0tTd3MMxp2po4iPVr9NfRCNC+He/338uHpeuwdRvgDu4d8jr2YyUJEg6rBAJW36uuclS9ERVpt6k1TB6RhAXVPOBG/Kcd0iIx+MeQRAGQ6FwH9gehW/G0XkYT0vr3g2VbTkPDyBFDEObNBqNmWXZAvhOA3aEWGzRAYqfTiQS0/CbGYQb8y79k+2YUhzDsvA0lINC1WHPkNBRELuiF09IMZy7J2fCJBEOHXO4Y1JYWiKKV8Cav6dnwtVEkt2SxrGMJCRFJd3f/wvuDwJ/CDAAQV/qtE8pXBoAAAAASUVORK5CYII="
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Sagesse</text>
+                <input id="Sagesse" class="myInput" />
+                <input
+                    type="image"
+                    src="https://i.ibb.co/ypVgZFz/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Sagesse').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Sagesse" class="myInput" />
                 <img
                     src="https://i.ibb.co/Z8CC699/rune-kamas.png"
                     width="26px"
@@ -1207,6 +1207,54 @@
             <div class="grid-item-fullwidth" id="title1">
                 <p>Stats Secondaires</p>
             </div>
+            <div class="grid-item-wide" id="stat-15">
+                <img
+                    src="data:image/png;base64,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"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Retrait PA</text>
+                <input id="Retrait PA" class="myInput" />
+                <input
+                    type="image"
+                    src="https://i.ibb.co/ypVgZFz/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Retrait PA').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Retrait PA" class="myInput" />
+                <img
+                    src="https://i.ibb.co/Z8CC699/rune-kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-16">
+                <img
+                    src="data:image/png;base64,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"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Retrait PM</text>
+                <input id="Retrait PM" class="myInput" />
+                <input
+                    type="image"
+                    src="https://i.ibb.co/ypVgZFz/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Retrait PM').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Retrait PM" class="myInput" />
+                <img
+                    src="https://i.ibb.co/Z8CC699/rune-kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
             <div class="grid-item-wide" id="stat-11">
                 <img
                     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAGvGlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMxNDIgNzkuMTYwOTI0LCAyMDE3LzA3LzEzLTAxOjA2OjM5ICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgeG1sbnM6cGhvdG9zaG9wPSJodHRwOi8vbnMuYWRvYmUuY29tL3Bob3Rvc2hvcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxOCAoV2luZG93cykiIHhtcDpDcmVhdGVEYXRlPSIyMDE3LTA4LTA5VDE1OjQyOjMxKzAyOjAwIiB4bXA6TW9kaWZ5RGF0ZT0iMjAyMC0wOS0wNFQxMjowNjo1NSswMjowMCIgeG1wOk1ldGFkYXRhRGF0ZT0iMjAyMC0wOS0wNFQxMjowNjo1NSswMjowMCIgZGM6Zm9ybWF0PSJpbWFnZS9wbmciIHBob3Rvc2hvcDpDb2xvck1vZGU9IjMiIHBob3Rvc2hvcDpJQ0NQcm9maWxlPSJzUkdCIElFQzYxOTY2LTIuMSIgcGhvdG9zaG9wOkhpc3Rvcnk9IjIwMjAtMDktMDRUMTE6NTc6MDkrMDI6MDAmI3g5O0ZpY2hpZXIgdHhfY3JpdGljYWxEYW1hZ2UucG5nIG91dmVydCYjeEE7MjAyMC0wOS0wNFQxMjowNjo1NSswMjowMCYjeDk7RmljaGllciBDOlxVc2Vyc1xhZGVscG9ydGUuQU5LQU1BXERlc2t0b3BcdHhfdGFja2xlLnBuZyBlbnJlZ2lzdHLDqSYjeEE7IiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjg4NTk1ZmRiLTRlNDctYzI0ZS05MzY3LTlkOWFkNmIzOTJhZCIgeG1wTU06RG9jdW1lbnRJRD0iYWRvYmU6ZG9jaWQ6cGhvdG9zaG9wOjkzZmIyZGY4LWI4ZGItNmI0Ni1iZmY0LTE5ZGZlM2RjZDg3NCIgeG1wTU06T3JpZ2luYWxEb2N1bWVudElEPSJ4bXAuZGlkOjQ3YmNmZTY3LTUzMmQtNGM0Zi04MzI2LTU1MDRlODg1MDdiMSI+IDx4bXBNTTpIaXN0b3J5PiA8cmRmOlNlcT4gPHJkZjpsaSBzdEV2dDphY3Rpb249ImNyZWF0ZWQiIHN0RXZ0Omluc3RhbmNlSUQ9InhtcC5paWQ6NDdiY2ZlNjctNTMyZC00YzRmLTgzMjYtNTUwNGU4ODUwN2IxIiBzdEV2dDp3aGVuPSIyMDE3LTA4LTA5VDE1OjQyOjMxKzAyOjAwIiBzdEV2dDpzb2Z0d2FyZUFnZW50PSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxOCAoV2luZG93cykiLz4gPHJkZjpsaSBzdEV2dDphY3Rpb249InNhdmVkIiBzdEV2dDppbnN0YW5jZUlEPSJ4bXAuaWlkOjg4NTk1ZmRiLTRlNDctYzI0ZS05MzY3LTlkOWFkNmIzOTJhZCIgc3RFdnQ6d2hlbj0iMjAyMC0wOS0wNFQxMjowNjo1NSswMjowMCIgc3RFdnQ6c29mdHdhcmVBZ2VudD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTggKFdpbmRvd3MpIiBzdEV2dDpjaGFuZ2VkPSIvIi8+IDwvcmRmOlNlcT4gPC94bXBNTTpIaXN0b3J5PiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PuoBByAAAAQISURBVFiF7ZZpbBRlGMd/7+zubG23XVp2l66tlnpAU6FttEBpELnEqCCBFNHEQBQNWDw+qBiBKAjxC5FYFZAgidYoGEw9giYYrkBCWykeAbnpQel9bq+9ZufxS41YCrSxsV/6T55MJnlnfr95JvM+o0SE4Yw2rPQRgRGBEQEAEflXDUGWAT1A/oB4gxTY3Ft/Z3svbEzvedw9sUTWTlYClA6lwEalqbannk+SKdNHCVAEMCaOKxtylAAtQBrQeOkVTfxblADnh0LgcaD2oUdGy2c/ZUm1zJHDF6aKM95mAI57YwlJkSZvz0MAc1O2JvKrJhf2I0DdfxHQgWLvHXZ59+PxUlb/oJRUT5O9xx6Q0x0z5OEFbgH256cpU0wlUo/sfUIT+U4TEaSjBAFCAxGw9rMmT9e1L5e9lKwvXn47nkSdqst+jLAQ5bDgawkxc1Y8B/c1zzVuE7augeNnwFpuyrFC1JxWmP80TMnEVvoHh4ALwFHgANDYF6b6tl0pFVy9bqy+8Jkx9IhGjz+CAkwTgp0GRpfB0QOtbC+4GgJMIKr3GAa+Bpwrl7Ng4yzFj98oyuuFE+XQZsG82CaB5h6JuZbXXwfKm5rDafVVAeoaw8R77Sgg3B3harmfUFi4fMkPINnT4y1LnvPi9uiary1s3/Ze5ZPn/+zO/2QX9VNHy4plu4HLgAuKt6It+YDogXRgFND02rqx1hkz42moC9LdbVJXG6ShMURSsp2EBBudYWHuQjfRDiuBgIlugXMlPlavOk91dfANRxzrO88Rgxe+2gEvrsXoaGGpiOy+lQDAFItFlby1IRWXR6eyIkB9TZD0jBjcbhsiivQcJ4GwSVe7QVerQe3FbsZNdBDUFCvyTld2+cJlJ3aQt6cM3t/JFSAFuO5L6+8VAJRGIrJ007ryl+Oc1kn5q1OY/dhoAp0GAb+J0hSnjrdjsSl6fAZiQtL4GKJcOqluG65Ee2KXL5zRflzhqAIQGzAJONEXdLNZ8AUwucNnFFdVBZixyE1soh2rroFAoMvA1xDC6dG5e1IcyalRhNtDFBZU01AXiIqGcXPyYP1hOLULrzeBX4A1fSE36sC1yd2zszYye55Ly8p18tvBVhor/cR6dCZkxOKMt9JWF+To903s+7aJk2WdZ4DSlRPUsxUtsONNofIMBEI0A5XX3X2AW/GWhUu9UlKRK5s/Gief78uUQ2enyqdFE2XRYo9kZDpEKYL8MydyUhKIADXAh8C0G/IGKOC4Ky1afijOlr1H7pcjZ3Ok6OcsSb8vRoArwKo+66N769YPPIhpWFNQmC4nK3Ll1dfvlKRkuwC/3+yCoRZ4JzPLIY/OdwnQDrwwWHh/AtftA/93hv2XbERgRGDYBf4CCMKM41OPvZ8AAAAASUVORK5CYII="
@@ -1225,30 +1273,6 @@
                 />
                 <br />
                 <input id="price-Tacle" class="myInput" />
-                <img
-                    src="https://i.ibb.co/Z8CC699/rune-kamas.png"
-                    width="26px"
-                    style="vertical-align: middle"
-                />
-            </div>
-            <div class="grid-item-wide" id="stat-12">
-                <img
-                    src="data:image/png;base64,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"
-                    width="30px"
-                    style="vertical-align: middle"
-                />
-                <text class="statName">Fuite</text>
-                <input id="Fuite" class="myInput" />
-                <input
-                    type="image"
-                    src="https://i.ibb.co/ypVgZFz/trash.png"
-                    name="resetStat"
-                    width="20"
-                    onclick="document.getElementById('Fuite').value = '';"
-                    style="vertical-align: middle"
-                />
-                <br />
-                <input id="price-Fuite" class="myInput" />
                 <img
                     src="https://i.ibb.co/Z8CC699/rune-kamas.png"
                     width="26px"
@@ -1303,55 +1327,31 @@
                     style="vertical-align: middle"
                 />
             </div>
-            <div class="grid-item-wide" id="stat-15">
+            <div class="grid-item-wide" id="stat-12">
                 <img
-                    src="data:image/png;base64,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"
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAKT2lDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHjanVNnVFPpFj333vRCS4iAlEtvUhUIIFJCi4AUkSYqIQkQSoghodkVUcERRUUEG8igiAOOjoCMFVEsDIoK2AfkIaKOg6OIisr74Xuja9a89+bN/rXXPues852zzwfACAyWSDNRNYAMqUIeEeCDx8TG4eQuQIEKJHAAEAizZCFz/SMBAPh+PDwrIsAHvgABeNMLCADATZvAMByH/w/qQplcAYCEAcB0kThLCIAUAEB6jkKmAEBGAYCdmCZTAKAEAGDLY2LjAFAtAGAnf+bTAICd+Jl7AQBblCEVAaCRACATZYhEAGg7AKzPVopFAFgwABRmS8Q5ANgtADBJV2ZIALC3AMDOEAuyAAgMADBRiIUpAAR7AGDIIyN4AISZABRG8lc88SuuEOcqAAB4mbI8uSQ5RYFbCC1xB1dXLh4ozkkXKxQ2YQJhmkAuwnmZGTKBNA/g88wAAKCRFRHgg/P9eM4Ors7ONo62Dl8t6r8G/yJiYuP+5c+rcEAAAOF0ftH+LC+zGoA7BoBt/qIl7gRoXgugdfeLZrIPQLUAoOnaV/Nw+H48PEWhkLnZ2eXk5NhKxEJbYcpXff5nwl/AV/1s+X48/Pf14L7iJIEyXYFHBPjgwsz0TKUcz5IJhGLc5o9H/LcL//wd0yLESWK5WCoU41EScY5EmozzMqUiiUKSKcUl0v9k4t8s+wM+3zUAsGo+AXuRLahdYwP2SycQWHTA4vcAAPK7b8HUKAgDgGiD4c93/+8//UegJQCAZkmScQAAXkQkLlTKsz/HCAAARKCBKrBBG/TBGCzABhzBBdzBC/xgNoRCJMTCQhBCCmSAHHJgKayCQiiGzbAdKmAv1EAdNMBRaIaTcA4uwlW4Dj1wD/phCJ7BKLyBCQRByAgTYSHaiAFiilgjjggXmYX4IcFIBBKLJCDJiBRRIkuRNUgxUopUIFVIHfI9cgI5h1xGupE7yAAygvyGvEcxlIGyUT3UDLVDuag3GoRGogvQZHQxmo8WoJvQcrQaPYw2oefQq2gP2o8+Q8cwwOgYBzPEbDAuxsNCsTgsCZNjy7EirAyrxhqwVqwDu4n1Y8+xdwQSgUXACTYEd0IgYR5BSFhMWE7YSKggHCQ0EdoJNwkDhFHCJyKTqEu0JroR+cQYYjIxh1hILCPWEo8TLxB7iEPENyQSiUMyJ7mQAkmxpFTSEtJG0m5SI+ksqZs0SBojk8naZGuyBzmULCAryIXkneTD5DPkG+Qh8lsKnWJAcaT4U+IoUspqShnlEOU05QZlmDJBVaOaUt2ooVQRNY9aQq2htlKvUYeoEzR1mjnNgxZJS6WtopXTGmgXaPdpr+h0uhHdlR5Ol9BX0svpR+iX6AP0dwwNhhWDx4hnKBmbGAcYZxl3GK+YTKYZ04sZx1QwNzHrmOeZD5lvVVgqtip8FZHKCpVKlSaVGyovVKmqpqreqgtV81XLVI+pXlN9rkZVM1PjqQnUlqtVqp1Q61MbU2epO6iHqmeob1Q/pH5Z/YkGWcNMw09DpFGgsV/jvMYgC2MZs3gsIWsNq4Z1gTXEJrHN2Xx2KruY/R27iz2qqaE5QzNKM1ezUvOUZj8H45hx+Jx0TgnnKKeX836K3hTvKeIpG6Y0TLkxZVxrqpaXllirSKtRq0frvTau7aedpr1Fu1n7gQ5Bx0onXCdHZ4/OBZ3nU9lT3acKpxZNPTr1ri6qa6UbobtEd79up+6Ynr5egJ5Mb6feeb3n+hx9L/1U/W36p/VHDFgGswwkBtsMzhg8xTVxbzwdL8fb8VFDXcNAQ6VhlWGX4YSRudE8o9VGjUYPjGnGXOMk423GbcajJgYmISZLTepN7ppSTbmmKaY7TDtMx83MzaLN1pk1mz0x1zLnm+eb15vft2BaeFostqi2uGVJsuRaplnutrxuhVo5WaVYVVpds0atna0l1rutu6cRp7lOk06rntZnw7Dxtsm2qbcZsOXYBtuutm22fWFnYhdnt8Wuw+6TvZN9un2N/T0HDYfZDqsdWh1+c7RyFDpWOt6azpzuP33F9JbpL2dYzxDP2DPjthPLKcRpnVOb00dnF2e5c4PziIuJS4LLLpc+Lpsbxt3IveRKdPVxXeF60vWdm7Obwu2o26/uNu5p7ofcn8w0nymeWTNz0MPIQ+BR5dE/C5+VMGvfrH5PQ0+BZ7XnIy9jL5FXrdewt6V3qvdh7xc+9j5yn+M+4zw33jLeWV/MN8C3yLfLT8Nvnl+F30N/I/9k/3r/0QCngCUBZwOJgUGBWwL7+Hp8Ib+OPzrbZfay2e1BjKC5QRVBj4KtguXBrSFoyOyQrSH355jOkc5pDoVQfujW0Adh5mGLw34MJ4WHhVeGP45wiFga0TGXNXfR3ENz30T6RJZE3ptnMU85ry1KNSo+qi5qPNo3ujS6P8YuZlnM1VidWElsSxw5LiquNm5svt/87fOH4p3iC+N7F5gvyF1weaHOwvSFpxapLhIsOpZATIhOOJTwQRAqqBaMJfITdyWOCnnCHcJnIi/RNtGI2ENcKh5O8kgqTXqS7JG8NXkkxTOlLOW5hCepkLxMDUzdmzqeFpp2IG0yPTq9MYOSkZBxQqohTZO2Z+pn5mZ2y6xlhbL+xW6Lty8elQfJa7OQrAVZLQq2QqboVFoo1yoHsmdlV2a/zYnKOZarnivN7cyzytuQN5zvn//tEsIS4ZK2pYZLVy0dWOa9rGo5sjxxedsK4xUFK4ZWBqw8uIq2Km3VT6vtV5eufr0mek1rgV7ByoLBtQFr6wtVCuWFfevc1+1dT1gvWd+1YfqGnRs+FYmKrhTbF5cVf9go3HjlG4dvyr+Z3JS0qavEuWTPZtJm6ebeLZ5bDpaql+aXDm4N2dq0Dd9WtO319kXbL5fNKNu7g7ZDuaO/PLi8ZafJzs07P1SkVPRU+lQ27tLdtWHX+G7R7ht7vPY07NXbW7z3/T7JvttVAVVN1WbVZftJ+7P3P66Jqun4lvttXa1ObXHtxwPSA/0HIw6217nU1R3SPVRSj9Yr60cOxx++/p3vdy0NNg1VjZzG4iNwRHnk6fcJ3/ceDTradox7rOEH0x92HWcdL2pCmvKaRptTmvtbYlu6T8w+0dbq3nr8R9sfD5w0PFl5SvNUyWna6YLTk2fyz4ydlZ19fi753GDborZ752PO32oPb++6EHTh0kX/i+c7vDvOXPK4dPKy2+UTV7hXmq86X23qdOo8/pPTT8e7nLuarrlca7nuer21e2b36RueN87d9L158Rb/1tWeOT3dvfN6b/fF9/XfFt1+cif9zsu72Xcn7q28T7xf9EDtQdlD3YfVP1v+3Njv3H9qwHeg89HcR/cGhYPP/pH1jw9DBY+Zj8uGDYbrnjg+OTniP3L96fynQ89kzyaeF/6i/suuFxYvfvjV69fO0ZjRoZfyl5O/bXyl/erA6xmv28bCxh6+yXgzMV70VvvtwXfcdx3vo98PT+R8IH8o/2j5sfVT0Kf7kxmTk/8EA5jz/GMzLdsAAAAgY0hSTQAAeiUAAICDAAD5/wAAgOkAAHUwAADqYAAAOpgAABdvkl/FRgAAA39JREFUeNrsl0tsW0UUhr+5T1/bsRPn4ZC6sWu7Tqq0VdrySCXSJCKirbqo2HWJYMGWLVRFrEHKAthXYlkQSGxAQIWoQEIsKpCQKEgRhKRJmpI4cfxo/LjDImNkUl8Tm0UWZKSRrPHMPd+c+e/85wopJQfZNA64HQIcOICxd0AI0e4zmi1oquxmgjc6BBeADlgNXQA1YAcoAxUFItvKwD6DW0AQ6AG61W9dBc8Bm8AWUASqrSCMDoNHgCNAHHgimTGPZE7akc8+ys8DG8ASsAisKiBPCLH3XP5FAwYwAJwGxi9c9J++Mdd3MZYwI/UJ331duvf6K2u3VharPwL3FEwecJtpQGtz9z616+cnzjovTV8OXCvkZWQ751Kr7U6amHJGP7gTe3U4aY4DMSDUKtNeALpaeBRIqp4CTgDnTFM8OTfen7a+keLTD/N8f6fE6lKVSnl3h70Deui1t/quAkNAWB3bvjWgqzSfUQEDDeNBIBXq1tKGRFxPRPj4fp6b89s8uF/lmSmHWMLE9gmemvRlgF61xmwHwAJGZuP+F18+FZ5yJXr9D1dK3ZUYUscXD+w+84WhICdzNm98+SelomRi2iGeNnH8mi/co4W2sq5PxRHNhOgFMDgYMDLXRrsGvBUhoD8Ia9scD5ncHBnk7btZvioWOD/jZ+SUhePX7K2sq7fSmuGhC/0fIyEf2HumGhrEuiHsg9/W8eFyIxnhk5UCP81XSKTNunCFx23Zxj0QsKDH//h4oQymDsd6YWGDxewOX5SKnIjY2I7ozAvUdVoW4P49spLb7S3a7QdF3sltMT5tkxmzcPxaxwCPgMXbfxS/fe7WUqmePgm6K6VVdQlbAQbfnYw6Yz0WNQnvLWxyN7rD9KyfsTM20SEDXadjgArw63K++v5yvvp5gx4soB84mxq1rpRc11ktVXnz9w3scxqXpoIkjpt0hTQMc/+OanhYaRb4Qb2/9Vw66mazho4az/4sKtG59U2SMxZPX3AYPmZiO4J23dxLhFJlorInM9vAw3jKzGYnJbOhIIm0SV9Ux7KbRnYb+n92Q6n08XA4Za6dn3EwTdFy17pBVllyzfM6acMNG/0h3WA0usebtAksAL8Ay0BBNrHDdgDqtUCXqge6AbsFwCMFsa6OrtLMjtutB4Q6tnoZpreoCWuqNCvXC5J9ARx+FxwC/O8A/hoACdMRQkw4ZtUAAAAASUVORK5CYII="
                     width="30px"
                     style="vertical-align: middle"
                 />
-                <text class="statName">Retrait PA</text>
-                <input id="Retrait PA" class="myInput" />
+                <text class="statName">Fuite</text>
+                <input id="Fuite" class="myInput" />
                 <input
                     type="image"
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Retrait PA').value = '';"
+                    onclick="document.getElementById('Fuite').value = '';"
                     style="vertical-align: middle"
                 />
                 <br />
-                <input id="price-Retrait PA" class="myInput" />
+                <input id="price-Fuite" class="myInput" />
                 <img
                     src="https://i.ibb.co/Z8CC699/rune-kamas.png"
                     width="26px"
                     style="vertical-align: middle"
                 />
             </div>
-            <div class="grid-item-wide" id="stat-16">
-                <img
-                    src="data:image/png;base64,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"
-                    width="30px"
-                    style="vertical-align: middle"
-                />
-                <text class="statName">Retrait PM</text>
-                <input id="Retrait PM" class="myInput" />
-                <input
-                    type="image"
-                    src="https://i.ibb.co/ypVgZFz/trash.png"
-                    name="resetStat"
-                    width="20"
-                    onclick="document.getElementById('Retrait PM').value = '';"
-                    style="vertical-align: middle"
-                />
-                <br />
-                <input id="price-Retrait PM" class="myInput" />
-                <img
-                    src="https://i.ibb.co/Z8CC699/rune-kamas.png"
-                    width="26px"
-                    style="vertical-align: middle"
-                />
-            </div>
-            <div class="grid-item-wide" id="stat-17">
+            <div class="grid-item-thin" id="stat-17">
                 <img
                     src="https://www.dofusbook.net/assets/ii-gGgkVVBa.png"
                     width="30px"
@@ -1375,7 +1375,7 @@
                     style="vertical-align: middle"
                 />
             </div>
-            <div class="grid-item-wide" id="stat-18">
+            <div class="grid-item-thin" id="stat-18">
                 <img
                     src="https://www.dofusbook.net/assets/pp-pyOXevou.png"
                     width="30px"
@@ -1399,7 +1399,7 @@
                     style="vertical-align: middle"
                 />
             </div>
-            <div class="grid-item-wide" id="stat-19">
+            <div class="grid-item-thin" id="stat-19">
                 <img
                     src="https://www.dofusbook.net/assets/so-q5cf4eUE.png"
                     width="30px"
@@ -1423,7 +1423,7 @@
                     style="vertical-align: middle"
                 />
             </div>
-            <div class="grid-item-wide" id="stat-20">
+            <div class="grid-item-thin" id="stat-20">
                 <img
                     src="https://www.dofusbook.net/assets/pd-tknwBeQS.png"
                     width="30px"
@@ -1451,7 +1451,7 @@
             <div class="grid-item-fullwidth" id="title2">
                 <p>Dommages</p>
             </div>
-            <div class="grid-item-thin" id="stat-21">
+            <div class="grid-item-wide" id="stat-21">
                 <img
                     src="https://www.dofusbook.net/assets/cc-zxDtbcVY.png"
                     width="30px"
@@ -1475,7 +1475,7 @@
                     style="vertical-align: middle"
                 />
             </div>
-            <div class="grid-item-thin" id="stat-22">
+            <div class="grid-item-wide" id="stat-22">
                 <img
                     src="data:image/png;base64,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"
                     width="30px"
@@ -1499,7 +1499,7 @@
                     style="vertical-align: middle"
                 />
             </div>
-            <div class="grid-item-thin" id="stat-23">
+            <div class="grid-item-wide" id="stat-23">
                 <img
                     src="data:image/png;base64,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"
                     width="30px"
@@ -1671,48 +1671,24 @@
             <div class="grid-item-fullwidth" id="title3">
                 <p>Résistances</p>
             </div>
-            <div class="grid-item-wide" id="stat-30">
+            <div class="grid-item-wide" id="stat-33">
                 <img
-                    src="https://www.dofusbook.net/assets/rn-rYmO14MY.png"
+                    src="https://www.dofusbook.net/assets/rt-CVVQB8XV.png"
                     width="30px"
                     style="vertical-align: middle"
                 />
-                <text class="statName">Ré% Neutre</text>
-                <input id="Ré% Neutre" class="myInput" />
+                <text class="statName">RéFix Terre</text>
+                <input id="RéFix Terre" class="myInput" />
                 <input
                     type="image"
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Ré% Neutre').value = '';"
+                    onclick="document.getElementById('RéFix Terre').value = '';"
                     style="vertical-align: middle"
                 />
                 <br />
-                <input id="price-Ré% Neutre" class="myInput" />
-                <img
-                    src="https://i.ibb.co/Z8CC699/rune-kamas.png"
-                    width="26px"
-                    style="vertical-align: middle"
-                />
-            </div>
-            <div class="grid-item-wide" id="stat-31">
-                <img
-                    src="https://www.dofusbook.net/assets/rn-rYmO14MY.png"
-                    width="30px"
-                    style="vertical-align: middle"
-                />
-                <text class="statName">RéFix Neutre</text>
-                <input id="RéFix Neutre" class="myInput" />
-                <input
-                    type="image"
-                    src="https://i.ibb.co/ypVgZFz/trash.png"
-                    name="resetStat"
-                    width="20"
-                    onclick="document.getElementById('RéFix Neutre').value = '';"
-                    style="vertical-align: middle"
-                />
-                <br />
-                <input id="price-RéFix Neutre" class="myInput" />
+                <input id="price-RéFix Terre" class="myInput" />
                 <img
                     src="https://i.ibb.co/Z8CC699/rune-kamas.png"
                     width="26px"
@@ -1743,48 +1719,24 @@
                     style="vertical-align: middle"
                 />
             </div>
-            <div class="grid-item-wide" id="stat-33">
+            <div class="grid-item-wide" id="stat-31">
                 <img
-                    src="https://www.dofusbook.net/assets/rt-CVVQB8XV.png"
+                    src="https://www.dofusbook.net/assets/rn-rYmO14MY.png"
                     width="30px"
                     style="vertical-align: middle"
                 />
-                <text class="statName">RéFix Terre</text>
-                <input id="RéFix Terre" class="myInput" />
+                <text class="statName">RéFix Neutre</text>
+                <input id="RéFix Neutre" class="myInput" />
                 <input
                     type="image"
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('RéFix Terre').value = '';"
+                    onclick="document.getElementById('RéFix Neutre').value = '';"
                     style="vertical-align: middle"
                 />
                 <br />
-                <input id="price-RéFix Terre" class="myInput" />
-                <img
-                    src="https://i.ibb.co/Z8CC699/rune-kamas.png"
-                    width="26px"
-                    style="vertical-align: middle"
-                />
-            </div>
-            <div class="grid-item-wide" id="stat-34">
-                <img
-                    src="https://www.dofusbook.net/assets/re-AKf8clJt.png"
-                    width="30px"
-                    style="vertical-align: middle"
-                />
-                <text class="statName">Ré% Eau</text>
-                <input id="Ré% Eau" class="myInput" />
-                <input
-                    type="image"
-                    src="https://i.ibb.co/ypVgZFz/trash.png"
-                    name="resetStat"
-                    width="20"
-                    onclick="document.getElementById('Ré% Eau').value = '';"
-                    style="vertical-align: middle"
-                />
-                <br />
-                <input id="price-Ré% Eau" class="myInput" />
+                <input id="price-RéFix Neutre" class="myInput" />
                 <img
                     src="https://i.ibb.co/Z8CC699/rune-kamas.png"
                     width="26px"
@@ -1815,24 +1767,48 @@
                     style="vertical-align: middle"
                 />
             </div>
-            <div class="grid-item-wide" id="stat-36">
+            <div class="grid-item-wide" id="stat-34">
                 <img
-                    src="https://www.dofusbook.net/assets/rf-eV4EXMAO.png"
+                    src="https://www.dofusbook.net/assets/re-AKf8clJt.png"
                     width="30px"
                     style="vertical-align: middle"
                 />
-                <text class="statName">Ré% Feu</text>
-                <input id="Ré% Feu" class="myInput" />
+                <text class="statName">Ré% Eau</text>
+                <input id="Ré% Eau" class="myInput" />
                 <input
                     type="image"
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Ré% Feu').value = '';"
+                    onclick="document.getElementById('Ré% Eau').value = '';"
                     style="vertical-align: middle"
                 />
                 <br />
-                <input id="price-Ré% Feu" class="myInput" />
+                <input id="price-Ré% Eau" class="myInput" />
+                <img
+                    src="https://i.ibb.co/Z8CC699/rune-kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-30">
+                <img
+                    src="https://www.dofusbook.net/assets/rn-rYmO14MY.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Ré% Neutre</text>
+                <input id="Ré% Neutre" class="myInput" />
+                <input
+                    type="image"
+                    src="https://i.ibb.co/ypVgZFz/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Ré% Neutre').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Ré% Neutre" class="myInput" />
                 <img
                     src="https://i.ibb.co/Z8CC699/rune-kamas.png"
                     width="26px"
@@ -1863,24 +1839,48 @@
                     style="vertical-align: middle"
                 />
             </div>
-            <div class="grid-item-wide" id="stat-38">
+            <div class="grid-item-wide" id="stat-36">
                 <img
-                    src="https://www.dofusbook.net/assets/ra-SMTbSrbm.png"
+                    src="https://www.dofusbook.net/assets/rf-eV4EXMAO.png"
                     width="30px"
                     style="vertical-align: middle"
                 />
-                <text class="statName">Ré% Air</text>
-                <input id="Ré% Air" class="myInput" />
+                <text class="statName">Ré% Feu</text>
+                <input id="Ré% Feu" class="myInput" />
                 <input
                     type="image"
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Ré% Air').value = '';"
+                    onclick="document.getElementById('Ré% Feu').value = '';"
                     style="vertical-align: middle"
                 />
                 <br />
-                <input id="price-Ré% Air" class="myInput" />
+                <input id="price-Ré% Feu" class="myInput" />
+                <img
+                    src="https://i.ibb.co/Z8CC699/rune-kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-40">
+                <img
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAFFmlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNi4wLWMwMDIgNzkuMTY0NDYwLCAyMDIwLzA1LzEyLTE2OjA0OjE3ICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgeG1sbnM6cGhvdG9zaG9wPSJodHRwOi8vbnMuYWRvYmUuY29tL3Bob3Rvc2hvcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgMjEuMiAoV2luZG93cykiIHhtcDpDcmVhdGVEYXRlPSIyMDIwLTEwLTIzVDEzOjIwOjA4KzAyOjAwIiB4bXA6TW9kaWZ5RGF0ZT0iMjAyMC0xMC0yM1QxMzoyMTowOSswMjowMCIgeG1wOk1ldGFkYXRhRGF0ZT0iMjAyMC0xMC0yM1QxMzoyMTowOSswMjowMCIgZGM6Zm9ybWF0PSJpbWFnZS9wbmciIHBob3Rvc2hvcDpDb2xvck1vZGU9IjMiIHBob3Rvc2hvcDpJQ0NQcm9maWxlPSJzUkdCIElFQzYxOTY2LTIuMSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo4MDNjZTAyYi1mYTZkLWI4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"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">RéCrit</text>
+                <input id="RéCrit" class="myInput" />
+                <input
+                    type="image"
+                    src="https://i.ibb.co/ypVgZFz/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('RéCrit').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-RéCrit" class="myInput" />
                 <img
                     src="https://i.ibb.co/Z8CC699/rune-kamas.png"
                     width="26px"
@@ -1911,24 +1911,24 @@
                     style="vertical-align: middle"
                 />
             </div>
-            <div class="grid-item-wide" id="stat-40">
+            <div class="grid-item-wide" id="stat-38">
                 <img
-                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAFFmlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNi4wLWMwMDIgNzkuMTY0NDYwLCAyMDIwLzA1LzEyLTE2OjA0OjE3ICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgeG1sbnM6cGhvdG9zaG9wPSJodHRwOi8vbnMuYWRvYmUuY29tL3Bob3Rvc2hvcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgMjEuMiAoV2luZG93cykiIHhtcDpDcmVhdGVEYXRlPSIyMDIwLTEwLTIzVDEzOjIwOjA4KzAyOjAwIiB4bXA6TW9kaWZ5RGF0ZT0iMjAyMC0xMC0yM1QxMzoyMTowOSswMjowMCIgeG1wOk1ldGFkYXRhRGF0ZT0iMjAyMC0xMC0yM1QxMzoyMTowOSswMjowMCIgZGM6Zm9ybWF0PSJpbWFnZS9wbmciIHBob3Rvc2hvcDpDb2xvck1vZGU9IjMiIHBob3Rvc2hvcDpJQ0NQcm9maWxlPSJzUkdCIElFQzYxOTY2LTIuMSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo4MDNjZTAyYi1mYTZkLWI4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"
+                    src="https://www.dofusbook.net/assets/ra-SMTbSrbm.png"
                     width="30px"
                     style="vertical-align: middle"
                 />
-                <text class="statName">RéCrit</text>
-                <input id="RéCrit" class="myInput" />
+                <text class="statName">Ré% Air</text>
+                <input id="Ré% Air" class="myInput" />
                 <input
                     type="image"
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('RéCrit').value = '';"
+                    onclick="document.getElementById('Ré% Air').value = '';"
                     style="vertical-align: middle"
                 />
                 <br />
-                <input id="price-RéCrit" class="myInput" />
+                <input id="price-Ré% Air" class="myInput" />
                 <img
                     src="https://i.ibb.co/Z8CC699/rune-kamas.png"
                     width="26px"
@@ -1987,30 +1987,6 @@
                     style="vertical-align: middle"
                 />
             </div>
-            <div class="grid-item-wide" id="stat-43">
-                <img
-                    src="https://www.dofusbook.net/assets/rm-AreYdAMf.png"
-                    width="30px"
-                    style="vertical-align: middle"
-                />
-                <text class="statName">Ré% Mêlée</text>
-                <input id="Ré% Mêlée" class="myInput" />
-                <input
-                    type="image"
-                    src="https://i.ibb.co/ypVgZFz/trash.png"
-                    name="resetStat"
-                    width="20"
-                    onclick="document.getElementById('Ré% Mêlée').value = '';"
-                    style="vertical-align: middle"
-                />
-                <br />
-                <input id="price-Ré% Mêlée" class="myInput" />
-                <img
-                    src="https://i.ibb.co/Z8CC699/rune-kamas.png"
-                    width="26px"
-                    style="vertical-align: middle"
-                />
-            </div>
             <div class="grid-item-wide" id="stat-44">
                 <img
                     src="https://www.dofusbook.net/assets/dd-U_ZgUUBj.png"
@@ -2035,30 +2011,6 @@
                     style="vertical-align: middle"
                 />
             </div>
-            <div class="grid-item-wide" id="stat-45">
-                <img
-                    src="https://www.dofusbook.net/assets/rd-JhYct-iT.png"
-                    width="30px"
-                    style="vertical-align: middle"
-                />
-                <text class="statName">Ré% Distance</text>
-                <input id="Ré% Distance" class="myInput" />
-                <input
-                    type="image"
-                    src="https://i.ibb.co/ypVgZFz/trash.png"
-                    name="resetStat"
-                    width="20"
-                    onclick="document.getElementById('Ré% Distance').value = '';"
-                    style="vertical-align: middle"
-                />
-                <br />
-                <input id="price-Ré% Distance" class="myInput" />
-                <img
-                    src="https://i.ibb.co/Z8CC699/rune-kamas.png"
-                    width="26px"
-                    style="vertical-align: middle"
-                />
-            </div>
             <div class="grid-item-wide" id="stat-46">
                 <img
                     src="https://www.dofusbook.net/assets/dw-70tRSE6J.png"
@@ -2077,6 +2029,54 @@
                 />
                 <br />
                 <input id="price-Do Armes" class="myInput" />
+                <img
+                    src="https://i.ibb.co/Z8CC699/rune-kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-43">
+                <img
+                    src="https://www.dofusbook.net/assets/rm-AreYdAMf.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Ré% Mêlée</text>
+                <input id="Ré% Mêlée" class="myInput" />
+                <input
+                    type="image"
+                    src="https://i.ibb.co/ypVgZFz/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Ré% Mêlée').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Ré% Mêlée" class="myInput" />
+                <img
+                    src="https://i.ibb.co/Z8CC699/rune-kamas.png"
+                    width="26px"
+                    style="vertical-align: middle"
+                />
+            </div>
+            <div class="grid-item-wide" id="stat-45">
+                <img
+                    src="https://www.dofusbook.net/assets/rd-JhYct-iT.png"
+                    width="30px"
+                    style="vertical-align: middle"
+                />
+                <text class="statName">Ré% Distance</text>
+                <input id="Ré% Distance" class="myInput" />
+                <input
+                    type="image"
+                    src="https://i.ibb.co/ypVgZFz/trash.png"
+                    name="resetStat"
+                    width="20"
+                    onclick="document.getElementById('Ré% Distance').value = '';"
+                    style="vertical-align: middle"
+                />
+                <br />
+                <input id="price-Ré% Distance" class="myInput" />
                 <img
                     src="https://i.ibb.co/Z8CC699/rune-kamas.png"
                     width="26px"
