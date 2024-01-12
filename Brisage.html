@@ -298,6 +298,7 @@
             'Do Sorts': 15,
         } // maging weight
         let kamasViewMode = 1
+        let loadedItem = {}
 
         function format(n) {
             const sep = ['k', 'M', 'B']
@@ -384,6 +385,7 @@
                 stats[stat] = 0
                 document.getElementById(stat).value = 0
             }
+            loadedItem = {}
             highlightStatInputs()
         }
         function refreshStats() {
@@ -407,6 +409,15 @@
                 parseInt(document.getElementById('itemLevel').value) || 200
             )
         }
+        function isValidFocus(focus) {
+            return (
+                focus === 'Aucun Focus' ||
+                (Object.keys(loadedItem).length &&
+                    loadedItem?.effects &&
+                    focus in loadedItem.effects &&
+                    loadedItem.effects[focus] > 0)
+            )
+        }
         function refreshAndCalcKamas() {
             const nRunes = refreshAndCalcRunes()
             const focus = document.getElementById('brisage-Focus-select').value
@@ -414,6 +425,11 @@
             const bestFocusNode = document.getElementById(
                 'brisage-FocusBest-text'
             )
+
+            // If invalid focus, make warning appear else hide
+            document.getElementById('invalid-focus-warn').style.display =
+                isValidFocus(focus) ? 'none' : 'inline'
+
             let bestStat = ''
             let maxValue = 0
             let totNoFocus = 0
@@ -425,7 +441,7 @@
                 totNoFocusHigh += Math.ceil(nRunes[stat][0]) * price[stat]
 
                 const focusValue = nRunes[stat][1] * price[stat]
-                if (focusValue > maxValue) {
+                if (isValidFocus(stat) && focusValue > maxValue) {
                     bestStat = stat
                     maxValue = focusValue
                 }
@@ -534,6 +550,23 @@
             }
             return index[id] || `Unknown Stat : ${id}`
         }
+        function saveItem(item) {
+            loadedItem = {
+                ...item,
+                effects: item.effects.reduce(
+                    (acc, eff) => {
+                        acc[eff.statName] = Math.max(eff.from, eff.to)
+                        return acc
+                    },
+                    {
+                        [item.effects[0].statName]: Math.max(
+                            item.effects[0].from,
+                            item.effects[0].to
+                        ),
+                    }
+                ),
+            }
+        }
         function loadItem(item) {
             // remove the search results in head container
             // grab what should stay
@@ -548,6 +581,7 @@
             for (const stat of allStats) {
                 document.getElementById(stat).value = 0
             }
+            saveItem(item)
             for (const effect of item.effects) {
                 try {
                     document.getElementById(effect.statName).value = Math.max(
@@ -589,7 +623,9 @@
                             el.imgset.filter((imgObj) => imgObj.size === 60)[0]
                                 .url || 'https://i.ibb.co/Xzprq2m/cancel.png',
                         effects: el.effects
-                            .filter((effect) => effect.category in [0, 1])
+                            .filter(
+                                (effect) => [0, 1].indexOf(effect.category) > -1
+                            )
                             .map((effect) => {
                                 const statName = toStatName(
                                     effect.characteristic,
@@ -614,7 +650,7 @@
                     (el) =>
                         el?.effects.length &&
                         el?.typeId < 90 &&
-                        !el?.typeId in [75]
+                        !el?.typeId in [75] // BAD !
                 )
             )
             */
@@ -818,6 +854,13 @@
                     </option>
                     <option class="myOption" value="Do Sorts">Do Sorts</option>
                 </select>
+                <img
+                    src="https://i.ibb.co/Wpw8p1y/warning.png"
+                    id="invalid-focus-warn"
+                    width="30px"
+                    style="vertical-align: middle; display: none"
+                    title="Focus Invalide"
+                />
             </div>
             <div class="grid-item-wide" id="brisage-Rate">
                 <img
@@ -881,9 +924,7 @@
                     style="vertical-align: middle"
                     title="Meilleur Focus"
                 />
-                <text id="brisage-FocusBest-text" class="recapTextL"
-                    >Aucun Focus</text
-                >
+                <text id="brisage-FocusBest-text">Aucun Focus</text>
             </div>
             <div class="grid-item-wide" id="brisage-Kamas">
                 <img
@@ -928,7 +969,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('PA').value = '';"
+                    onclick="document.getElementById('PA').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -952,7 +993,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('PM').value = '';"
+                    onclick="document.getElementById('PM').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -976,7 +1017,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('PO').value = '';"
+                    onclick="document.getElementById('PO').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -1000,7 +1041,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Invocation').value = '';"
+                    onclick="document.getElementById('Invocation').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -1024,7 +1065,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Chasse').value = '';"
+                    onclick="document.getElementById('Chasse').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -1048,7 +1089,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Puissance').value = '';"
+                    onclick="document.getElementById('Puissance').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -1072,7 +1113,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Vitalité').value = '';"
+                    onclick="document.getElementById('Vitalité').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -1096,7 +1137,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Sagesse').value = '';"
+                    onclick="document.getElementById('Sagesse').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -1120,7 +1161,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Force').value = '';"
+                    onclick="document.getElementById('Force').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -1144,7 +1185,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Chance').value = '';"
+                    onclick="document.getElementById('Chance').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -1168,7 +1209,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Intelligence').value = '';"
+                    onclick="document.getElementById('Intelligence').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -1192,7 +1233,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Agilité').value = '';"
+                    onclick="document.getElementById('Agilité').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -1220,7 +1261,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Retrait PA').value = '';"
+                    onclick="document.getElementById('Retrait PA').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -1244,7 +1285,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Retrait PM').value = '';"
+                    onclick="document.getElementById('Retrait PM').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -1268,7 +1309,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Tacle').value = '';"
+                    onclick="document.getElementById('Tacle').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -1292,7 +1333,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Esquive PA').value = '';"
+                    onclick="document.getElementById('Esquive PA').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -1316,7 +1357,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Esquive PM').value = '';"
+                    onclick="document.getElementById('Esquive PM').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -1340,7 +1381,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Fuite').value = '';"
+                    onclick="document.getElementById('Fuite').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -1364,7 +1405,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Initiative').value = '';"
+                    onclick="document.getElementById('Initiative').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -1388,7 +1429,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Prospection').value = '';"
+                    onclick="document.getElementById('Prospection').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -1412,7 +1453,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Soin').value = '';"
+                    onclick="document.getElementById('Soin').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -1436,7 +1477,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Pods').value = '';"
+                    onclick="document.getElementById('Pods').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -1464,7 +1505,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Critique').value = '';"
+                    onclick="document.getElementById('Critique').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -1488,7 +1529,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Do Critiques').value = '';"
+                    onclick="document.getElementById('Do Critiques').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -1512,7 +1553,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('DoPou').value = '';"
+                    onclick="document.getElementById('DoPou').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -1536,7 +1577,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Dommages').value = '';"
+                    onclick="document.getElementById('Dommages').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -1560,7 +1601,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Do Neutre').value = '';"
+                    onclick="document.getElementById('Do Neutre').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -1584,7 +1625,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Do Terre').value = '';"
+                    onclick="document.getElementById('Do Terre').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -1608,7 +1649,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Do Eau').value = '';"
+                    onclick="document.getElementById('Do Eau').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -1632,7 +1673,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Do Feu').value = '';"
+                    onclick="document.getElementById('Do Feu').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -1656,7 +1697,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Do Air').value = '';"
+                    onclick="document.getElementById('Do Air').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -1684,7 +1725,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('RéFix Terre').value = '';"
+                    onclick="document.getElementById('RéFix Terre').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -1708,7 +1749,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Ré% Terre').value = '';"
+                    onclick="document.getElementById('Ré% Terre').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -1732,7 +1773,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('RéFix Neutre').value = '';"
+                    onclick="document.getElementById('RéFix Neutre').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -1756,7 +1797,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('RéFix Eau').value = '';"
+                    onclick="document.getElementById('RéFix Eau').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -1780,7 +1821,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Ré% Eau').value = '';"
+                    onclick="document.getElementById('Ré% Eau').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -1804,7 +1845,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Ré% Neutre').value = '';"
+                    onclick="document.getElementById('Ré% Neutre').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -1828,7 +1869,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('RéFix Feu').value = '';"
+                    onclick="document.getElementById('RéFix Feu').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -1852,7 +1893,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Ré% Feu').value = '';"
+                    onclick="document.getElementById('Ré% Feu').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -1876,7 +1917,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('RéCrit').value = '';"
+                    onclick="document.getElementById('RéCrit').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -1900,7 +1941,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('RéFix Air').value = '';"
+                    onclick="document.getElementById('RéFix Air').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -1924,7 +1965,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Ré% Air').value = '';"
+                    onclick="document.getElementById('Ré% Air').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -1948,7 +1989,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('RéPou').value = '';"
+                    onclick="document.getElementById('RéPou').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -1976,7 +2017,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Do Mêlée').value = '';"
+                    onclick="document.getElementById('Do Mêlée').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -2000,7 +2041,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Do Distance').value = '';"
+                    onclick="document.getElementById('Do Distance').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -2024,7 +2065,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Do Armes').value = '';"
+                    onclick="document.getElementById('Do Armes').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -2048,7 +2089,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Ré% Mêlée').value = '';"
+                    onclick="document.getElementById('Ré% Mêlée').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -2072,7 +2113,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Ré% Distance').value = '';"
+                    onclick="document.getElementById('Ré% Distance').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -2096,7 +2137,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Ré% Armes').value = '';"
+                    onclick="document.getElementById('Ré% Armes').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
@@ -2120,7 +2161,7 @@
                     src="https://i.ibb.co/ypVgZFz/trash.png"
                     name="resetStat"
                     width="20"
-                    onclick="document.getElementById('Do Sorts').value = '';"
+                    onclick="document.getElementById('Do Sorts').value = '0';refreshAndCalcKamas()"
                     style="vertical-align: middle"
                 />
                 <br />
