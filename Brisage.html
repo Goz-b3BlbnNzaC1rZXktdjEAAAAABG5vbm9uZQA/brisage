@@ -453,7 +453,7 @@
                 resultNode.textContent = kamasViewMode
                     ? format(totNoFocus)
                     : `${format(totNoFocusLow)} - ${format(totNoFocusHigh)}`
-            } else if (!nRunes[focus]) {
+            } else if (!isValidFocus(focus) || !nRunes[focus]) {
                 resultNode.textContent = 'Invalide'
             } else {
                 const tot = nRunes[focus][1] * price[focus]
